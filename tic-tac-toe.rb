@@ -79,6 +79,8 @@ class Game
 
   def turn(player_number)
     @players[player_number].get_move
+  end
+end
 
 
 binding.pry
