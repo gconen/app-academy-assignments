@@ -29861,6 +29861,7 @@ rubidium
 ruble
 rubric
 ruby
+ruck
 rucksack
 ruckus
 rudder
