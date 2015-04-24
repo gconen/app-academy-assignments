@@ -7,6 +7,15 @@ class WordChainer
     @start =  Time.now
   end
 
+  def adjacent?(word1, word2)
+    mismatch = false
+    (0...word1.length).each do |i|
+      next if word1[i] == word2[i]
+      return false if mismatch
+      mismatch = true
+    end
+  end
+
   def adjacent_words(word)
     adjacents = []
     (0...word.length).each do |char_pos|
@@ -36,23 +45,51 @@ class WordChainer
     path.compact.reverse
   end
 
-  def explore_current_words(target)
-    new_current_words = []
-    @current_words.each do |word|
-      adjacents = adjacent_words(word)
-      adjacents.each do |w|
-        next if @all_seen_words.include?(w)
-        new_current_words << w
-        @all_seen_words[w] = word
+  def check_dictionary
+    new_words = []
+    @possible_words.each do |word|
+      @current_words.each do |current_word|
+        next if @all_seen_words.include?(word)
+        if adjacent?(word, current_word)
+          @all_seen_words[word] = current_word
+          new_words << word
+        end
       end
     end
 
+    new_words
+  end
+
+  def explore_current_words(target)
+    new_current_words = []
+
+    # @current_words.each do |word|
+    #   adjacents = adjacent_words(word)
+    #   adjacents.each do |w|
+    #     next if @all_seen_words.include?(w)
+    #     new_current_words << w
+    #     @all_seen_words[w] = word
+    #   end
+    # end
+
+    new_current_words = check_dictionary
+
+    p @current_words.length
     @current_words = new_current_words
+  end
+
+  def prune_dictionary(word)
+    @possible_words = @dictionary.select do |entry|
+      entry.length == word.length
+    end
   end
 
   def run(source, target)
     @current_words = [source]
     @all_seen_words = { source => nil }
+
+    prune_dictionary(source)
+    p @possible_words.count
 
     until @current_words.empty? || @current_words.include?(target)
       explore_current_words(target)
@@ -65,4 +102,4 @@ class WordChainer
 end
 
 w = WordChainer.new
-puts w.run('duck', 'ruby')
+puts w.run('market', 'toilet')
