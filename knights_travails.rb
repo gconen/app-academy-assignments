@@ -1,7 +1,7 @@
 require "./00_tree_node.rb"
 
 class KnightPathFinder
-  attr_reader :visited_positions
+  attr_reader :visited_positions, :root_node
 
   TRANSPOSES = [
     [1,   2],
@@ -35,10 +35,16 @@ class KnightPathFinder
     until queue.empty?
       current = queue.shift
       new_move_positions(*current.value).each do |position|
-        queue << PolyTreeNode.new(position, current)
+        new_node = PolyTreeNode.new(position)
+        queue << new_node
+        new_node.parent = current
         @visited_positions << position
       end
     end
+  end
+
+  def find_path(*pos)
+    @root_node.dfs(pos).trace_path_back
   end
 
   def new_move_positions(x,y)
@@ -47,10 +53,9 @@ class KnightPathFinder
     end
   end
 
-  def
 end
 
 a = KnightPathFinder.new(0, 0)
 a.build_move_tree
 
-p a.visited_positions.length
+p a.find_path(7, 6)

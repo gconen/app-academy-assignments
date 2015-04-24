@@ -1,8 +1,7 @@
 class PolyTreeNode
   attr_reader :parent, :children, :value
 
-  def initialize(value, parent = nil)
-    @parent = parent
+  def initialize(value)
     @children = []
     @value = value
   end
@@ -22,8 +21,14 @@ class PolyTreeNode
     node.parent = nil
   end
 
+  def trace_path_back
+    return [@value] if @parent.nil?
+    @parent.trace_path_back << @value
+  end
+
   def dfs(target)
     return self if @value == target
+    p @value
     @children.each do |child|
       result = child.dfs(target)
       return result if result
