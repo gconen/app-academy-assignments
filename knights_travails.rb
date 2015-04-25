@@ -35,9 +35,7 @@ class KnightPathFinder
     until queue.empty?
       current = queue.shift
       new_move_positions(*current.value).each do |position|
-        new_node = PolyTreeNode.new(position)
-        queue << new_node
-        new_node.parent = current
+        queue << PolyTreeNode.new(position, current)
         @visited_positions << position
       end
     end
