@@ -1,5 +1,5 @@
 class Game
-  BOMBS = 10
+  NUM_BOMBS = 10
   attr_reader :board #testing only!
 
   def initialize
@@ -11,6 +11,7 @@ class Game
     until over?
       display
       turn
+      check_win
     end
   end
 
@@ -21,7 +22,13 @@ class Game
   end
 
   def turn
-    reveal(*prompt_input)
+    input = prompt_input
+    puts "Place a (f)lag or (r)eveal a square"
+    if gets.chomp.downcase == 'f'
+      flag_bomb(*input)
+    else
+      reveal(*input)
+    end
   end
 
   def over?
@@ -61,7 +68,7 @@ class Game
 
   def populate_bombs
     bomb_locs = []
-    until bomb_locs.length == 10
+    until bomb_locs.length == NUM_BOMBS
       pos = [rand(9), rand(9)]
       bomb_locs << pos unless bomb_locs.include?(pos)
     end
@@ -83,6 +90,22 @@ class Game
     @board[pos[0]][pos[1]].reveal
     lose if @board[pos[0]][pos[1]].bomb
   end
+
+  def check_win
+    count = 0
+    @board.each do |row|
+      row.each do |tile|
+        count += 1 if tile.display == '*' || tile.display == 'F'
+      end
+    end
+
+    if count == NUM_BOMBS
+      @won = true
+      puts "You Win!"
+      display
+    end
+  end
+
 end
 
 
