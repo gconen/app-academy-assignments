@@ -1,49 +1,24 @@
 class Game
   NUM_BOMBS = 10
-  attr_reader :board #testing only!
+  # attr_reader :board #testing only!
 
   def initialize
     @board = Array.new(9) { Array.new(9) }
     populate
   end
 
-  def play
-    until over?
-      display
-      turn
-      check_win
-    end
-  end
-
-  def prompt_input
-    puts "Give us a coordinate"
-    input = gets.chomp.split("")
-    input.map! {|el| Integer(el)}
-  end
-
-  def turn
-    input = prompt_input
-    puts "Place a (f)lag or (r)eveal a square"
-    if gets.chomp.downcase == 'f'
-      flag_bomb(*input)
-    else
-      reveal(*input)
-    end
-  end
-
-  def over?
-    @lost || @won
-  end
-
-  def lose
-    puts "You lose"
+  def check_win
+    count = 0
     @board.each do |row|
       row.each do |tile|
-        tile.reveal
+        count += 1 if tile.display == '*' || tile.display == 'F'
       end
     end
-    display
-    @lost = true
+
+    if count == NUM_BOMBS
+      @won = true
+      puts "You Win!"
+    end
   end
 
   def display
@@ -53,12 +28,36 @@ class Game
       end
       print "\n"
     end
+
     nil
   end
 
-
   def flag_bomb(*pos)
+    if self[*pos].display =~ /[_1-9]/
+      puts "That is already revealed. Are you sure?"
+      return if gets.chomp == 'n'
+    end
+
     @board[pos[0]][pos[1]].set_flag
+  end
+
+  def lose
+    puts "You lose"
+    @board.each { |row| row.each { |tile| tile.reveal } }
+    @lost = true
+  end
+
+  def over?
+    @lost || @won
+  end
+
+  def play
+    until over?
+      display
+      turn
+      check_win
+    end
+    display
   end
 
   def populate
@@ -73,36 +72,44 @@ class Game
       bomb_locs << pos unless bomb_locs.include?(pos)
     end
 
-    bomb_locs.each do |(x,y)|
-      @board[x][y].place_bomb
+    bomb_locs.each do |pos|
+      self[*pos].place_bomb
     end
   end
 
   def populate_blank
     @board.each_index do |x|
-      @board.each_index do |y|
-        @board[x][y] = Tile.new(x,y, @board)
-      end
+      @board[x].each_index { |y| @board[x][y] = Tile.new(x,y, @board) }
     end
+  end
+
+  def prompt_input
+    puts "Give us a coordinate"
+    input = gets.chomp.split("")
+    input.map! {|el| Integer(el)}
   end
 
   def reveal(*pos)
-    @board[pos[0]][pos[1]].reveal
-    lose if @board[pos[0]][pos[1]].bomb
-  end
-
-  def check_win
-    count = 0
-    @board.each do |row|
-      row.each do |tile|
-        count += 1 if tile.display == '*' || tile.display == 'F'
-      end
+    if self[*pos].display == 'F'
+      puts "That spot has a flag. Are you sure?"
+      return if gets.chomp == 'n'
     end
 
-    if count == NUM_BOMBS
-      @won = true
-      puts "You Win!"
-      display
+    self[*pos].reveal
+    lose if self[*pos].bomb
+  end
+
+  def [] (*pos)
+    @board[pos[0]][pos[1]]
+  end
+
+  def turn
+    input = prompt_input
+    puts "Place a (f)lag or (r)eveal a square"
+    if gets.chomp.downcase == 'f'
+      flag_bomb(*input)
+    else
+      reveal(*input)
     end
   end
 
@@ -122,14 +129,13 @@ class Tile
     [1,  1]
   ]
 
-  attr_reader :display, :bomb, :position, :flag
+  attr_reader :display, :bomb
 
   def initialize(x,y, board)
     @bomb = false
     @display = "*"
     @position = [x,y]
     @board = board
-    @flag = false
   end
 
   def neighbors
@@ -148,6 +154,10 @@ class Tile
     count
   end
 
+  def place_bomb
+    @bomb = true
+  end
+
   def reveal
     result = @bomb ? 'B' : neighbor_bomb_count.to_s
     @display = result
@@ -157,18 +167,7 @@ class Tile
     end
   end
 
-  def place_bomb
-    @bomb = true
-  end
-
   def set_flag
-    @flag = true
     @display = 'F'
   end
-
-  def flag?
-    return @flag
-  end
-
-
 end
