@@ -152,6 +152,7 @@ class Tile
     result = @bomb ? 'B' : neighbor_bomb_count.to_s
     @display = result
     if result == '0'
+      @display = '_'
       neighbors.each { |neighbor| neighbor.reveal if neighbor.display == "*" }
     end
   end
