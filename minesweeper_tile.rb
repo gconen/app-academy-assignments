@@ -10,13 +10,15 @@ class Tile
     [1,  1]
   ]
 
-  attr_reader :display, :bomb
+  attr_reader :bomb, :revealed, :flagged
 
   def initialize(x,y, board)
+    @revealed = false
     @bomb = false
-    @display = "*"
+    @contents = "*"
     @position = [x,y]
     @board = board
+    @flagged = false
   end
 
   def neighbors
@@ -40,15 +42,30 @@ class Tile
   end
 
   def reveal
-    result = @bomb ? 'B' : neighbor_bomb_count.to_s
-    @display = result
-    if result == '0'
-      @display = '_'
-      neighbors.each { |neighbor| neighbor.reveal if neighbor.display == "*" }
+    result = neighbor_bomb_count
+    @contents = result
+    @revealed = true
+    if result == 0
+      neighbors.each do |neighbor|
+        unless neighbor.revealed || neighbor.flagged
+          neighbor.reveal
+        end
+      end
+    end
+  end
+
+  def to_s
+    if @revealed
+      return 'B' if @bomb
+      return '_' if @contents == 0
+      return @contents.to_s
+    else
+      return 'F' if @flagged
+      return '*'
     end
   end
 
   def set_flag
-    @display = 'F'
+    @flagged = true
   end
 end

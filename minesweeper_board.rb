@@ -10,8 +10,8 @@ class Board
     count = 0
     @board.each do |row|
       row.each do |tile|
-        count += 1 if tile.display == '*' || tile.display == 'F'
-        if tile.display == 'B'
+        count += 1 unless tile.revealed
+        if tile.bomb && tile.revealed
           lose
           return true
         end
@@ -29,7 +29,7 @@ class Board
   def display
     @board.each do |row|
       row.each do |tile|
-        print tile.display
+        print tile
       end
       print "\n"
     end
@@ -38,7 +38,7 @@ class Board
   end
 
   def flag_bomb(*pos)
-    if self[*pos].display =~ /[_1-9]/
+    if self[*pos].revealed
       puts "That is already revealed. Are you sure?"
       return if gets.chomp == 'n'
     end
@@ -75,7 +75,7 @@ class Board
   end
 
   def reveal(*pos)
-    if self[*pos].display == 'F'
+    if self[*pos].flagged
       puts "That spot has a flag. Are you sure?"
       return if gets.chomp == 'n'
     end
