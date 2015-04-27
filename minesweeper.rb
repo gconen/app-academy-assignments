@@ -128,9 +128,9 @@ class Tile
   def reveal
     result = @bomb ? 'B' : neighbor_bomb_count.to_s
     @display = result
-    # if result == '0'
-    #   neighbors.each { |neighbor| neighbor.reveal unless neighbor.flag?}
-    # end
+    if result == '0'
+      neighbors.each { |neighbor| neighbor.reveal if neighbor.display == "*" }
+    end
   end
 
   def place_bomb
