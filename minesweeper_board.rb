@@ -1,5 +1,5 @@
 class Board
-  NUM_BOMBS = 10
+  NUM_BOMBS = 1
 
   def initialize
     @board = Array.new(9) { Array.new(9) }
