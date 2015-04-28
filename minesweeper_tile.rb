@@ -12,10 +12,10 @@ class Tile
 
   attr_reader :bomb, :revealed, :flagged
 
+  # NR: You can do without @contents.
   def initialize(x,y, board)
     @revealed = false
     @bomb = false
-    @contents = "*"
     @position = [x,y]
     @board = board
     @flagged = false
@@ -41,13 +41,13 @@ class Tile
     @bomb = true
   end
 
+  # I might stop immediately if already revealed.
   def reveal
-    result = neighbor_bomb_count
-    @contents = result
+    return if @revealed
     @revealed = true
-    if result == 0
+    if neighbor_bomb_count == 0
       neighbors.each do |neighbor|
-        unless neighbor.revealed || neighbor.flagged
+        unless neighbor.flagged
           neighbor.reveal
         end
       end
@@ -57,8 +57,8 @@ class Tile
   def to_s
     if @revealed
       return 'B' if @bomb
-      return '_' if @contents == 0
-      return @contents.to_s
+      return '_' if neighbor_bomb_count == 0
+      return neighbor_bomb_count.to_s
     else
       return 'F' if @flagged
       return '*'

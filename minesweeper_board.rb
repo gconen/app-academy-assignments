@@ -1,8 +1,11 @@
 class Board
-  NUM_BOMBS = 1
+  NUM_BOMBS = 10
+
+  attr_reader :won
 
   def initialize
     @board = Array.new(9) { Array.new(9) }
+    @won = false
     populate
   end
 
@@ -12,14 +15,13 @@ class Board
       row.each do |tile|
         count += 1 unless tile.revealed
         if tile.bomb && tile.revealed
-          lose
           return true
         end
       end
     end
 
     if count == NUM_BOMBS
-      puts "You Win!"
+      @won = true
       return true
     end
 
@@ -38,16 +40,11 @@ class Board
   end
 
   def flag_bomb(*pos)
-    if self[*pos].revealed
-      puts "That is already revealed. Are you sure?"
-      return if gets.chomp == 'n'
-    end
-
     self[*pos].set_flag
   end
 
-  def lose
-    puts "You lose"
+  # Probably should be in the game class.
+  def reveal_board
     @board.each { |row| row.each { |tile| tile.reveal } }
   end
 
@@ -75,11 +72,6 @@ class Board
   end
 
   def reveal(*pos)
-    if self[*pos].flagged
-      puts "That spot has a flag. Are you sure?"
-      return if gets.chomp == 'n'
-    end
-
     self[*pos].reveal
   end
 

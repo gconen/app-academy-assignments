@@ -16,9 +16,12 @@ class Game
       @board.display
       turn
     end
+    @board.reveal_board
     @board.display
+    # NR: Could lose..
     @elapsed_time += Time.now - @start_time
-    puts "You took #{@elapsed_time.to_i} seconds to win"
+    puts "You took #{@elapsed_time.to_i} " +
+         "seconds to #{@board.won ? 'win' : 'lose' }"
   end
 
   def prompt_input
@@ -37,8 +40,16 @@ class Game
     input = prompt_input
     puts "Place a (f)lag or (r)eveal a square"
     if gets.chomp.downcase == 'f'
+      if @board[*input].revealed
+        puts "That is already revealed. Are you sure?"
+        return if gets.chomp == 'n'
+      end
       @board.flag_bomb(*input)
     else
+      if @board[*input].flagged
+        puts "That spot has a flag. Are you sure?"
+        return if gets.chomp == 'n'
+      end
       @board.reveal(*input)
     end
   end
