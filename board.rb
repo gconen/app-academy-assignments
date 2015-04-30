@@ -1,5 +1,6 @@
 require_relative "piece.rb"
 require_relative "checkers_errors.rb"
+require 'colorize'
 
 class Board
   def initialize
@@ -14,8 +15,15 @@ class Board
   end
 
   def display
-    @grid.each do |row|
-      p row.map { |el| el.nil? ? nil : el.display }
+    @grid.each_with_index do |row, row_idx|
+      row.each_with_index do |el, col_idx|
+        display = el.nil? ? " " : el.display
+        output = (" " + display + " ")
+        output = output.colorize(color: el.color) if el
+        background = (row_idx + col_idx).even? ? :magenta : :black
+        print output.colorize(background: background)
+      end
+      print "\n"
     end
 
     nil

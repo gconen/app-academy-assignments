@@ -1,4 +1,5 @@
 require_relative "array_patch.rb"
+require 'colorize'
 
 class Piece
   attr_reader :board, :color, :king
@@ -12,7 +13,7 @@ class Piece
   end
 
   def display
-    display = color == :red ? 'r' : 'w'
+    display = @king ? "⊙" : '●' 
     display.upcase! if @king
     display
   end
