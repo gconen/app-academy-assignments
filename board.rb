@@ -31,6 +31,13 @@ class Board
     new_board
   end
 
+  def do_move(start, sequence, color_to_check)
+    piece = self[start]
+    raise IllegalMoveError.new "No piece there" if piece.nil?
+    raise IllegalMoveError.new "Wrong color" if piece.color != color_to_check
+    piece.perform_moves(sequence)
+  end
+
   def in_bounds?(pos)
     y, x = pos
     y.between?(0, 7) && x.between?(0, 7)
@@ -57,7 +64,7 @@ class Board
   end
 
   def won?(color)
-    pieces.all? { |piece| piece.color = color }
+    pieces.all? { |piece| piece.color == color }
   end
 
   def winner

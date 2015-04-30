@@ -59,7 +59,7 @@ class Piece
     new_self = new_board[@pos]
     begin
       new_self.perform_moves!(move_sequence)
-    rescue
+    rescue IllegalMoveError #Note to self: not all errors
       false
     else
       true
@@ -73,7 +73,8 @@ class Piece
 
     perform_moves!(move_sequence)
   end
-  private
+
+  #private
   def check_promote
     promote_row = @color == :red ? 7 : 0
     @king = true if @pos[0] == promote_row
