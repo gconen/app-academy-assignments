@@ -12,7 +12,7 @@ class Piece
   end
 
   def display
-    display = color == :white ? 'w' : 'b'
+    display = color == :red ? 'r' : 'w'
     display.upcase! if @king
     display
   end
@@ -66,6 +66,19 @@ class Piece
     end
   end
 
+  def perform_moves(move_sequence)
+    unless valid_moves?(move_sequence)
+      raise IllegalMoveError.new "Attempted Illegal Sequence"
+    end
+
+    perform_moves!(move_sequence)
+  end
+  private
+  def check_promote
+    promote_row = @color == :red ? 7 : 0
+    @king = true if @pos[0] == promote_row
+  end
+
   def perform_moves!(move_sequence)
     raise IllegalMoveError.new "Empty Sequence" if move_sequence.length < 1
     if move_sequence.length == 1
@@ -77,15 +90,9 @@ class Piece
       performed = perform_jump(move)
       raise IllegalMoveError.new "Invalid Sequence Performed" unless performed
     end
-
+    #todo: stop when kinged
+    #todo: check further jumps in sequence (all jumps are mandatory)
     nil
-  end
-
-  #private
-
-  def check_promote
-    promote_row = @color == :black ? 7 : 0
-    @king = true if @pos[0] == promote_row
   end
 
   def set_pos(goal)
@@ -96,7 +103,7 @@ class Piece
 
   def move_directions
     return [[1, 1], [-1, 1], [-1, -1], [1, -1]] if @king
-    @color == :black ? [[1, 1], [1, -1]] : [[-1, 1], [-1, -1]]
+    @color == :red ? [[1, 1], [1, -1]] : [[-1, 1], [-1, -1]]
   end
 
   def slide_moves

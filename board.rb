@@ -42,13 +42,28 @@ class Board
 
   def place_piece(pos, color)
     raise OutOfBoundsError.new unless in_bounds?(pos)
-    return nil if self[pos]
+    raise BadPlaceError.new if self[pos]
 
     self[pos] = Piece.new(pos, color, self)
   end
 
-  def pieces
-    @grid.flatten.compact
+  def place_starting_pieces
+    populate(0, 1, :red)
+    populate(1, 0, :red)
+    populate(2, 1, :red)
+    populate(5, 0, :white)
+    populate(6, 1, :white)
+    populate(7, 0, :white)
+  end
+
+  def won?(color)
+    pieces.all? { |piece| piece.color = color }
+  end
+
+  def winner
+    return :red if won?(:red)
+    return :white if won?(:white)
+    nil
   end
 
   def [](pos)
@@ -61,5 +76,22 @@ class Board
     raise OutofBoundsError.new unless in_bounds?(pos)
     y, x = pos
     @grid[y][x] = contents
+  end
+
+  private
+
+  def pieces
+    @grid.flatten.compact
+  end
+
+  def populate(row, start_col, color)
+    col = start_col
+    until col >=8
+      place_piece([row, col], color)
+
+      col += 2
+    end
+
+    nil
   end
 end

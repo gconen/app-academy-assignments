@@ -3,3 +3,6 @@ end
 
 class IllegalMoveError < StandardError
 end
+
+class BadPlaceError < StandardError
+end
