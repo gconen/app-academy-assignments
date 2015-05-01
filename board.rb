@@ -3,8 +3,10 @@ require_relative "checkers_errors.rb"
 require 'colorize'
 
 class Board
+  attr_accessor :cursor, :selected_squares
   def initialize
     @grid = Array.new(8) { Array.new(8) }
+    @selected_squares = []
   end
 
   def capture_at(pos)
@@ -20,8 +22,10 @@ class Board
         display = el.nil? ? " " : el.display
         output = (" " + display + " ")
         output = output.colorize(color: el.color) if el
-        background = (row_idx + col_idx).even? ? :magenta : :black
-        print output.colorize(background: background)
+        bgcolor = (row_idx + col_idx).even? ? :magenta : :black
+        bgcolor = :light_cyan if @selected_squares.include?([row_idx, col_idx])
+        bgcolor = :green if [row_idx, col_idx] == @cursor
+        print output.colorize(background: bgcolor)
       end
       print "\n"
     end

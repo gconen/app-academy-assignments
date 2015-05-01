@@ -1,5 +1,5 @@
 require_relative 'board.rb'
-require_relative 'player.rb'
+require_relative 'cursor_player.rb'
 
 class Game
   attr_reader :board, :game
@@ -40,6 +40,6 @@ class Game
 end
 
 if __FILE__ == $PROGRAM_NAME
-  g = Game.new
+  g = Game.new(CursorPlayer.new(:red), CursorPlayer.new(:red))
   g.play
 end

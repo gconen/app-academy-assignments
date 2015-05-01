@@ -4,7 +4,7 @@ class Player
   end
 
   def get_move(board)
-    @board = board
+    @board = board.dup
     @board.display
     puts "It's #{@color}'s turn"
     piece_pos = get_piece
