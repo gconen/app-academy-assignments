@@ -35,6 +35,7 @@ class Card
   end
 
   def ==(other)
+    return false unless other.is_a?(Card)
     other.suit == @suit && other.value == @value
   end
 

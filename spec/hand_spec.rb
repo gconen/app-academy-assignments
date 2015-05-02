@@ -14,7 +14,7 @@ describe Hand do
   describe '#draw' do
     let(:deck) { Deck.new }
 
-    it "draws five cards from deck" do
+    it "draws five cards from deck by default" do
       hand.draw(deck)
 
       expect(deck.cards.length).to eq(47)
@@ -24,6 +24,13 @@ describe Hand do
       hand.draw(deck)
 
       expect(hand.cards.length).to eq(5)
+    end
+
+    it "draws up to 5 cards" do
+      hand.cards = [Card.new(:ace, :spades)]
+      hand.draw(deck)
+
+      expect(deck.cards.length).to eq(48)
     end
   end
 
@@ -85,5 +92,9 @@ describe Hand do
 
       expect(hand.beats?(other_hand)).to be_truthy
     end
+  end
+
+  describe '#discard' do
+
   end
 end

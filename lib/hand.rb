@@ -12,13 +12,18 @@ class Hand
   end
 
   def draw(deck)
-    @cards.concat(deck.draw(5))
+    @cards.concat(deck.draw(5-@cards.count))
   end
 
   def beats?(other_hand)
     return ranking > other_hand.ranking unless ranking == other_hand.ranking
     if ranking < 2
-
+      case spaceship_pair(other_hand)
+      when 1
+        return true
+      when -1
+        return false
+      end
     end
 
     higher_card?(other_hand)
@@ -86,10 +91,24 @@ class Hand
 
     until sorted_cards.empty?
       spaceship = sorted_cards.pop <=> sorted_other.pop
+      puts spaceship
       return false if spaceship == -1
       return true if spaceship == 1
     end
-
     false
+  end
+
+  def spaceship_pair(other_hand)
+    sorted_cards = @cards.sort
+    sorted_other = other_hand.cards.sort
+    high_card = nil
+    high_other = nil
+    loop do
+      high_card = sorted_cards.pop until high_card == sorted_cards.last
+      high_other = sorted_other.pop until high_other == sorted_other.last
+      return 0 if high_card.nil?
+      return 1 if high_card > high_other
+      return -1 if high_card < high_other
+    end
   end
 end

@@ -56,6 +56,9 @@ describe Card do
     it "doesn't match cards of other suits" do
       expect(card).to_not eq(Card.new(:king, :clubs))
     end
+    it "doesn't equal other classes" do
+      expect(card).to_not eq([])
+    end
   end
 
   describe '#<=>' do
