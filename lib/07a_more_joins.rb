@@ -215,7 +215,7 @@ def expensive_tastes
   execute(<<-SQL)
 
     SELECT
-      styles.style, SUM(albums_with_tracks.price / albums_with_tracks.tracks_per_album)
+      styles.style, SUM(albums_with_tracks.price) / SUM(albums_with_tracks.tracks_per_album)
     FROM
       styles
     INNER JOIN
