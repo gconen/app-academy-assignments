@@ -10,6 +10,7 @@ class QuestionLike
       WHERE
         id = ?
     SQL
+    
     self.new(hash.first)
   end
 

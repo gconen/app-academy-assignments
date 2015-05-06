@@ -1,20 +1,11 @@
 require_relative 'questions_database'
 require_relative 'question'
 require_relative 'reply'
+require_relative 'saveable'
 
 class User
-  def self.find_by_id(id)
-    hash = QuestionsDatabase.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        users
-      WHERE
-        id = ?
-    SQL
-
-    self.new(hash.first)
-  end
+  extend DBInterfaceable
+  include Saveable
 
   def self.find_by_name(first, last)
     hash = QuestionsDatabase.execute(<<-SQL, first, last)
@@ -63,32 +54,6 @@ class User
     follower_count = query_result[0]['follower_count']
     follower_count / question_count.to_f
   end
-
-  def create
-    raise 'already saved!' unless self.id.nil?
-
-    QuestionsDatabase.execute(<<-SQL, fname, lname)
-      INSERT INTO
-        users (fname, lname)
-      VALUES
-        (? , ?)
-    SQL
-
-    @id = QuestionsDatabase.instance.last_insert_row_id
-  end
-
-  def save
-    QuestionsDatabase.execute(<<-SQL, fname, lname, id)
-      UPDATE
-        users
-      SET
-        fname = ?
-        lname = ?
-      WHERE
-        id = ?
-    SQL
-  end
-end
 
 
 if __FILE__ == $PROGRAM_NAME

@@ -2,20 +2,11 @@ require_relative 'questions_database'
 require_relative 'user'
 require_relative 'reply'
 require_relative 'question_follow'
+require_relative 'saveable'
 
 class Question
-  def self.find_by_id(id)
-    hash = QuestionsDatabase.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        questions
-      WHERE
-        id = ?
-    SQL
-
-    self.new(hash.first)
-  end
+  extend DBInterfaceable
+  include Saveable
 
   def self.find_by_author_id(author_id)
     hash = QuestionsDatabase.execute(<<-SQL, author_id)
@@ -55,29 +46,6 @@ class Question
     QuestionFollow.followers_for_question_id(id)
   end
 
-  def create
-    raise 'already saved!' unless self.id.nil?
-
-    QuestionsDatabase.execute(<<-SQL, title, body, author_id)
-      INSERT INTO
-        questions (title, body, author_id)
-      VALUES
-        (?, ?, ?)
-    SQL
-
-    @id = QuestionsDatabase.instance.last_insert_row_id
-  end
-
-  def save
-    QuestionsDatabase.execute(<<-SQL, title, body, author_id, id)
-      UPDATE
-        questions
-      SET
-        title = ?, body = ?, author_id = ?
-      WHERE
-        id = ?
-    SQL
-  end
 end
 
 if __FILE__ == $PROGRAM_NAME

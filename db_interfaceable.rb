@@ -2,19 +2,21 @@ require_relative 'questions_database'
 require 'active_support/inflector'
 
 module DBInterfaceable
-  def self.find_by_id(id)
-    hash = QuestionsDatabase.execute(<<-SQL, table_name, id)
+  def find_by_id(id)
+    t = table_name
+    hash = QuestionsDatabase.execute(<<-SQL, id)
       SELECT
         *
       FROM
-        ?
+        #{t}
       WHERE
         id = ?
     SQL
-    self.new(hash)
+    
+    self.new(hash.first)
   end
 
   def table_name
-    self.class.to_s.tableize
+    self.to_s.tableize
   end
 end

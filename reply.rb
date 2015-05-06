@@ -1,20 +1,12 @@
 require_relative 'questions_database'
 require_relative 'user'
 require_relative 'question'
+require_relative 'db_interfaceable'
+require_relative 'saveable'
 
 class Reply
-  def self.find_by_id(id)
-    hash = QuestionsDatabase.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        replies
-      WHERE
-        id = ?
-    SQL
-
-    self.new(hash.first)
-  end
+  extend DBInterfaceable
+  include Saveable
 
   def self.find_by_user_id(user_id)
     hashes = QuestionsDatabase.execute(<<-SQL, user_id)
@@ -87,41 +79,11 @@ class Reply
   def child_replies
     Reply.find_by_parent_id(id)
   end
-
-  def create
-    raise 'already saved!' unless self.id.nil?
-
-    QuestionsDatabase.execute(<<-SQL, question_id, parent_id, user_id, body)
-      INSERT INTO
-        replies (question_id, parent_id, user_id, body)
-      VALUES
-        (?, ?, ?, ?)
-    SQL
-
-    @id = QuestionsDatabase.instance.last_insert_row_id
-  end
-
-  def save
-    if self.id.nil?
-      create
-      return
-    end
-
-    QuestionsDatabase.execute(<<-SQL, question_id, parent_id, user_id, body, id)
-      UPDATE
-        replies
-      SET
-        question_id = ?, parent_id = ?, user_id = ?, body = ?
-      WHERE
-        id = ?
-    SQL
-  end
 end
 
 if __FILE__ == $PROGRAM_NAME
 
-  Reply.new({ 'question_id' => 1, 'body' => "Replying top level" }).save
-  reply_again = Reply.find_by_question_id(1)
+  reply_again = Reply.find_by_id(1)
   p reply_again
 
 end

@@ -3,6 +3,8 @@ require_relative 'user'
 require_relative 'question'
 
 class QuestionFollow
+  extend DBInterfaceable
+
   def self.followers_for_question_id(question_id)
     hashes = QuestionsDatabase.execute(<<-SQL, question_id)
       SELECT
@@ -48,18 +50,6 @@ class QuestionFollow
     SQL
 
     hashes.map { |row| Question.new(row) }
-  end
-
-  def self.find_by_id(id)
-    hash = QuestionsDatabase.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        question_follows
-      WHERE
-        id = ?
-    SQL
-    self.new(hash.first)
   end
 
   attr_accessor :id, :question_id, :user_id
