@@ -18,3 +18,15 @@ end
 10.times do |i|
   Response.create!(user_id: respondents[i].id, answer_choice_id: a[i].id)
 end
+empty_poll = Poll.create!(title: "empty poll", author_id: author.id)
+unanswered_poll = Poll.create!(title: "UA poll", author_id: author.id)
+ua_q = Question.create!(text: "unanswered?", poll_id: unanswered_poll.id)
+AnswerChoice.create!(text: "choice", question_id: ua_q.id)
+partial_poll = Poll.create!(title: "partial poll", author_id: author.id)
+q = Question.create!(text: "unanswered?", poll_id: partial_poll.id)
+AnswerChoice.create!(text: "choice", question_id: q.id)
+q = Question.create!(text: "unanswered?", poll_id: partial_poll.id)
+a = AnswerChoice.create!(text: "choice", question_id: q.id)
+10.times do |i|
+  Response.create!(user_id: respondents[i].id, answer_choice_id: a.id)
+end

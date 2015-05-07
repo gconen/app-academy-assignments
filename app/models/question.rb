@@ -24,12 +24,12 @@ class Question < ActiveRecord::Base
   )
 
   def results
+    a = answer_choices.select('answer_choices.*, COUNT(responses.id) AS count')
+      .joins('LEFT OUTER JOIN
+        responses ON responses.answer_choice_id = answer_choices.id')
+      .group('answer_choices.id')
     results = {}
-
-    answer_choices.includes(:responses).each do |choice|
-      results[choice.text] = choice.responses.length
-    end
-
+    a.each { |row| results[row.text] = row.count }
     results
   end
 
