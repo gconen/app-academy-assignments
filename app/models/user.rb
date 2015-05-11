@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id         :integer          not null, primary key
+#  created_at :datetime
+#  updated_at :datetime
+#  username   :string           default("unknown"), not null
+#
+
 class User < ActiveRecord::Base
  validates :username, presence: true, uniqueness: true
 
@@ -8,7 +18,17 @@ class User < ActiveRecord::Base
    primary_key: :id
  )
 
+ has_many(
+   :contact_shares,
+   class_name: "ContactShares",
+   foreign_key: :user_id,
+   primary_key: :id
+ )
 
-
+ has_many(
+  :shared_contacts
+  through: :contact_shares
+  source: :contact
+ )
 
 end
