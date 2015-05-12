@@ -1,6 +1,6 @@
 class ContactsController < ApplicationController
   def index
-    render json: Contacts.all
+    render json: Contact.all
   end
 
   def create
@@ -35,6 +35,6 @@ class ContactsController < ApplicationController
   private
 
   def contact_params
-    params[:contact].permit(:name, :email)
+    params[:contact].permit(:name, :email, :user_id)
   end
 end
