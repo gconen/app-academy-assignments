@@ -19,24 +19,23 @@ class UsersController < ApplicationController
 
   def update
     user = User.find(params[:id])
-    user_params.each do |key, val|
-      user.send("#{key}=", val)
+    if user.update(user_params)
+      render json: user
+    else
+      render json: user.errors.full_messages, status: :unprocessable_entity
     end
-    user.save!
-    render json: user
   end
 
   def destroy
     user = User.find(params[:id])
     user.destroy
-    render json: true
+    render json: user
   end
-
 
 private
 
   def user_params
-    params[:user].permit(:name, :email)
+    params[:user].permit(:username)
   end
 
 

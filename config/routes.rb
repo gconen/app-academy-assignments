@@ -1,13 +1,4 @@
 Rails.application.routes.draw do
-  # resources :users
-
-  get   '/users'          =>  'users#index'
-  post  '/users'          =>  'users#create'
-  get   '/users/new'      => 'users#new'
-  get   '/users/:id/edit' => 'users#edit'
-  get   '/users/:id'      => 'users#show'
-  patch '/users/:id'      => 'users#update'
-  put   '/users/:id'      => 'users#update'
-  delete '/users/:id'     => 'users#destroy'
-
+  resources :users, only: [:index, :show, :update, :destroy, :create]
+  # we don't want edit and new because those are for forms
 end
