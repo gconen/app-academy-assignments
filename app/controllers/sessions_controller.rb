@@ -20,9 +20,12 @@ class SessionsController < ApplicationController
     end
   end
 
+  def show
+    render json: request.user_agent
+  end
+
   def destroy
-    current_user.reset_session_token!
-    session[:session_token] = nil
+    logout
     redirect_to :back
   end
 end

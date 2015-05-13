@@ -9,9 +9,8 @@ class User < ActiveRecord::Base
   end
 
   attr_reader :password
-  after_initialize :ensure_session_token
 
-  validates :username, :password_digest, :session_token, presence: true
+  validates :username, :password_digest, presence: true
   validates :username, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
 
@@ -29,6 +28,13 @@ class User < ActiveRecord::Base
     primary_key: :id
   )
 
+    has_many(
+      :sessions,
+      class_name: 'Session',
+      foreign_key: :user_id,
+      primary_key: :id
+    )
+
   def is_password?(password)
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end
@@ -36,15 +42,5 @@ class User < ActiveRecord::Base
   def password=(password)
     self.password_digest = BCrypt::Password.create(password)
     @password = password
-  end
-
-  def ensure_session_token
-    self.session_token ||= SecureRandom::urlsafe_base64
-  end
-
-  def reset_session_token!
-    self.session_token = SecureRandom::urlsafe_base64
-    self.save!
-    self.session_token
   end
 end
