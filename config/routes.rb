@@ -6,4 +6,8 @@ Rails.application.routes.draw do
     patch 'approve', on: :member
     patch 'deny', on: :member
   end
+
+  resources :users
+
+  resource :session
 end
