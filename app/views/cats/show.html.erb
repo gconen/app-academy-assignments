@@ -27,10 +27,11 @@
   <h4>Existing Requests</h4>
   <ul>
     <% @cat_rental_requests.each do |request| %>
-      <li><%="start date: #{request.start_date} "%><br><%="
+      <li> <%= request.requestor.username %> <br>
+        <%="start date: #{request.start_date} "%><br><%="
         end date: #{request.end_date}  "%><br><%="
         status: #{request.status}" %><br>
-        <% if request.pending? %>
+        <% if request.pending? && request.cat_owner == current_user %>
           <%= button_to 'Approve Request',
             approve_cat_rental_request_url(request), method: :patch %><br>
           <%= button_to 'Deny Request',

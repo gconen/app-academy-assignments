@@ -14,7 +14,7 @@
 class CatRentalRequest < ActiveRecord::Base
   STATUSES = ["PENDING", "APPROVED", "DENIED"]
 
-  validates :cat_id, :start_date, :end_date, :status, presence: true
+  validates :cat_id, :start_date, :end_date, :status, :user_id, presence: true
   validates :status, inclusion: {in: STATUSES, message: "not valid"}
   validate :no_overlaps
   validate :start_before_end
@@ -22,6 +22,20 @@ class CatRentalRequest < ActiveRecord::Base
   after_initialize :set_status
 
   belongs_to :cat
+
+  has_one(
+    :cat_owner,
+    through: :cat,
+    source: :owner
+  )
+
+  belongs_to(
+    :requestor,
+    class_name: 'User',
+    foreign_key: :user_id,
+    primary_key: :id
+  )
+
 
   def approve!
     transaction do

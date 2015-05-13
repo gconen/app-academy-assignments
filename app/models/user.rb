@@ -22,6 +22,13 @@ class User < ActiveRecord::Base
     primary_key: :id
   )
 
+  has_many(
+    :cat_rental_requests,
+    class_name: 'CatRentalRequest',
+    foreign_key: :user_id,
+    primary_key: :id
+  )
+
   def is_password?(password)
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end

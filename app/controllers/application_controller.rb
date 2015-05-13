@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
 
   def current_user
-    User.find_by(session_token: session[:session_token])
+    @current_user ||= User.find_by(session_token: session[:session_token])
   end
 
   def sign_in(user)
@@ -15,5 +15,9 @@ class ApplicationController < ActionController::Base
 
   def redirect_if_logged_in
     redirect_to cats_url if current_user
+  end
+
+  def redirect_unless_logged_in
+    redirect_to new_session_url if current_user.nil?
   end
 end
