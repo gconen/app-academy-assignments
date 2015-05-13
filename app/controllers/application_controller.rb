@@ -15,7 +15,11 @@ class ApplicationController < ActionController::Base
   end
 
   def sign_in(user)
-    session[:session_token] = Session.generate(user)
+    current_session = Session.generate(user)
+    session[:session_token] = current_session.session_token
+    current_session.ip = request.ip
+    current_session.env = request.user_agent.match(/\([^\)]+\)/)
+    current_session.save!
   end
 
   def logout

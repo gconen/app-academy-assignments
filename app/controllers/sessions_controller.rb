@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   before_action :redirect_if_logged_in, only: [:new, :create]
+  before_action :redirect_unless_logged_in, only: [:show]
 
   def new
     @user = User.new
@@ -12,7 +13,7 @@ class SessionsController < ApplicationController
     )
     if @user
       sign_in(@user)
-      redirect_to cats_url
+      redirect_to session_url
     else
       @user = User.new(username: params[:user][:username])
       flash.now[:errors] = ["Invalid username/password combination"]
@@ -21,7 +22,8 @@ class SessionsController < ApplicationController
   end
 
   def show
-    render json: request.user_agent
+    @sessions = current_user.sessions
+    render :show
   end
 
   def destroy

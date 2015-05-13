@@ -28,12 +28,12 @@ class User < ActiveRecord::Base
     primary_key: :id
   )
 
-    has_many(
-      :sessions,
-      class_name: 'Session',
-      foreign_key: :user_id,
-      primary_key: :id
-    )
+  has_many(
+    :sessions,
+    class_name: 'Session',
+    foreign_key: :user_id,
+    primary_key: :id
+  )
 
   def is_password?(password)
     BCrypt::Password.new(self.password_digest).is_password?(password)

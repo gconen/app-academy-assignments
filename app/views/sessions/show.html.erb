@@ -1,0 +1,12 @@
+<h1>Active Sessions</h1>
+<ul>
+  <% @sessions.each do |s| %>
+    <li>
+      <%= "IP: #{s.ip}, type:#{s.env}" %>
+      <% if s.session_token == session[:session_token] %>
+        <%= " **Local Session**" %>
+      <% end %>
+    </li>
+
+  <% end %>
+</ul>

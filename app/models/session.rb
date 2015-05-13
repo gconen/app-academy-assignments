@@ -4,7 +4,6 @@ class Session < ActiveRecord::Base
   def self.generate(user)
     token = SecureRandom::urlsafe_base64
     Session.create!(user_id: user.id, session_token: token)
-    token
   end
 
   belongs_to(
