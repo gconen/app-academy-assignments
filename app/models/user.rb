@@ -15,6 +15,13 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
 
+  has_many(
+    :owned_cats,
+    class_name: "Cat",
+    foreign_key: :user_id,
+    primary_key: :id
+  )
+
   def is_password?(password)
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end
@@ -25,10 +32,12 @@ class User < ActiveRecord::Base
   end
 
   def ensure_session_token
-    reset_session_token!
+    self.session_token ||= SecureRandom::urlsafe_base64
   end
 
   def reset_session_token!
     self.session_token = SecureRandom::urlsafe_base64
+    self.save!
+    self.session_token
   end
 end

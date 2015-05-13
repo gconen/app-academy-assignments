@@ -1,6 +1,6 @@
 <h1>Edit Cat</h1>
 
-<%= render partial: :form, :locals =>
+<%= render partial: "form", :locals =>
   { action_url: cat_url(@cat),
     hidden_method: 'patch',
     submit_value: 'Edit Cat',

@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :redirect_if_logged_in
+  before_action :redirect_if_logged_in, only: [:new, :create]
 
   def new
     @user = User.new
@@ -13,11 +13,16 @@ class SessionsController < ApplicationController
     if @user
       sign_in(@user)
       redirect_to cats_url
+    else
+      @user = User.new(username: params[:user][:username])
+      flash.now[:errors] = ["Invalid username/password combination"]
+      render :new
     end
   end
 
   def destroy
     current_user.reset_session_token!
     session[:session_token] = nil
+    redirect_to :back
   end
 end

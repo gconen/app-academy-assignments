@@ -1,4 +1,8 @@
 class CatsController < ApplicationController
+  before_action :redirect_if_wrong_user, only: [:edit, :update]
+  before_action :redirect_unless_logged_in, only: [:create, :new]
+
+
   def index
     @cats = Cat.all
     render :index
@@ -17,6 +21,7 @@ class CatsController < ApplicationController
 
   def create
     @cat = Cat.new(cat_params)
+    @cat.user_id = current_user.id
     if @cat.save
       redirect_to cat_url(@cat)
     else
@@ -46,7 +51,18 @@ class CatsController < ApplicationController
     redirect_to cats_url
   end
 
+  private
+
   def cat_params
     params.require(:cat).permit(:name, :sex, :color, :description, :birth_date)
+  end
+
+  def redirect_if_wrong_user
+    cat = Cat.find(params[:id])
+    redirect_to cats_url unless cat.owner == current_user
+  end
+
+  def redirect_unless_logged_in
+    redirect_to new_session_url if current_user.nil?
   end
 end
