@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  before_action :redirect_if_logged_in
+
   def new
     @user = User.new
   end
@@ -10,10 +12,12 @@ class SessionsController < ApplicationController
     )
     if @user
       sign_in(@user)
+      redirect_to cats_url
     end
   end
 
-  def sign_in(@user)
-    session[:session_token] = @user.reset_session_token!
+  def destroy
+    current_user.reset_session_token!
+    session[:session_token] = nil
   end
 end

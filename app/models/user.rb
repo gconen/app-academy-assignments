@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   end
 
   attr_reader :password
+  after_initialize :ensure_session_token
 
   validates :username, :password_digest, :session_token, presence: true
   validates :username, uniqueness: true
@@ -23,6 +24,9 @@ class User < ActiveRecord::Base
     @password = password
   end
 
+  def ensure_session_token
+    reset_session_token!
+  end
 
   def reset_session_token!
     self.session_token = SecureRandom::urlsafe_base64
