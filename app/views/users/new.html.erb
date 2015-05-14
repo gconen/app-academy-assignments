@@ -1,0 +1,8 @@
+<h1>Sign Up</h1>
+
+<%= render partial: 'shared/username_password_form', locals: {
+    action_url: users_url,
+    email: @user.email,
+    button: "Sign Up"
+  }
+%>
