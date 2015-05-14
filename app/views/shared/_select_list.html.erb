@@ -1,0 +1,13 @@
+<label> <%= label %>
+  <select name="<%= name %>" id="<%= name.gsub(/[\[\]_]/, '-') %>">
+    <option></option>
+    <% list.each do |item| %>
+      <option
+        value="<%= item.id %>"
+        <%= "selected" if default == item %>
+      >
+        <%= item.name %>
+      </option>
+    <% end %>
+  </select>
+</label>

@@ -5,7 +5,7 @@ class Band < ActiveRecord::Base
     :albums,
     class_name: "Album",
     foreign_key: :band_id,
-    primary_key: :id
+    primary_key: :id,
     dependent: :destroy
   )
 
