@@ -11,48 +11,26 @@
       value="<%= @album.title %>"
     >
   </label>
+
   <br><br>
 
-  <label> Recording Band
-    <select name="album[band_id]" id="album-band_id">
-      <option></option>
-      <% Band.all.each do |band| %>
-        <option
-          value="<%= band.id %>"
-          <%= "selected" if @album.band_id == band.id %>
-        >
-          <%= band.name %>
-        </option>
-      <% end %>
-    </select>
-  </label>
 
   <%= render partial: "shared/select_list", locals: {
     label: "Recording Band",
     name: "album[band_id]",
     list: Band.all,
+    item_label: :name,
     default: @album.band_id
   } %>
 
   <br><br>
 
-  <input
-    type="radio"
-    name="album[live]"
-    id="album-live-true"
-    value="true"
-    <%= "checked" if @album.live == true %>
-  >
-  <label for="album-live-true">Live</label>
-  <br>
-  <input
-    type="radio"
-    name="album[live]"
-    id="album-live-false"
-    value="false"
-    <%= "checked" if @album.live == false %>
-  >
-  <label for="band-live-false">Studio</label>
+  <%= render partial: "shared/radio_buttons", locals: {
+    options: {"true" => "Live", "false" => "Studio"},
+    name: "album[live]",
+    default: @album.live.to_s
+  } %>
+
   <br><br>
 
 <%= end_form("Create Album") %>

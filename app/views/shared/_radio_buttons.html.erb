@@ -1,0 +1,14 @@
+
+<% options.each do |option, label| %>
+  <input
+    type="radio"
+    name="<%= name %>"
+    id="<%= format_id_tag(name) + option %>"
+    value="<%= option %>"
+    <%= "checked" if option == default %>
+  >
+  <label for="<%= format_id_tag(name) + option %>">
+    <%= label %>
+  </label>
+  <br>
+<% end %>

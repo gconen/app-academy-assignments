@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def format_id_tag(name)
+    name.gsub(/[\[\]_]/, '-')
+  end
+
   def csrf_input
     html = <<-HTML
       <input type="hidden"
