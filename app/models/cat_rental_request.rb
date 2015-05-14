@@ -71,7 +71,9 @@ class CatRentalRequest < ActiveRecord::Base
   end
 
   def start_before_end
-    if start_date > end_date
+    if start_date.nil? || end_date.nil?
+      errors[:schedule] << "dates can't be nil"
+    elsif start_date > end_date
       errors[:schedule] << "temporal paradox"
     end
   end

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     patch 'deny', on: :member
   end
 
-  resources :users
+  resources :users, only: [:new, :create]
 
   resource :session do
     delete "/:id/remote_logout" => "sessions#remote_logout", as: :remote_logout
