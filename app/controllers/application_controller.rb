@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
 
 
   def current_user
-    fail
     if @current_user
       return @current_user
     end
