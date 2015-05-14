@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
     session[:session_token] = current_session.session_token
     current_session.ip = request.ip
     current_session.env = request.user_agent.match(/\([^\)]+\)/)
+    current_session.location = request.location.to_json
     current_session.save!
   end
 

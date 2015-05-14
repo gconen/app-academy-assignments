@@ -2,9 +2,13 @@
 <ul>
   <% @sessions.each do |s| %>
     <li>
-      <%= "IP: #{s.ip}, type:#{s.env}" %>
+      <%= "IP: #{s.ip}, location: #{s.location["data"]["city"]}type: #{s.env}" %>
       <% if s.session_token == session[:session_token] %>
         <%= " **Local Session**" %>
+      <% else %>
+        <%= button_to "Log this session out",
+                        remote_logout_session_url(s),
+                        method: :delete %>
       <% end %>
     </li>
 

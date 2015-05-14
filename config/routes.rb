@@ -9,5 +9,7 @@ Rails.application.routes.draw do
 
   resources :users
 
-  resource :session
+  resource :session do
+    delete "/:id/remote_logout" => "sessions#remote_logout", as: :remote_logout
+  end
 end

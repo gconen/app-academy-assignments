@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   before_action :redirect_if_logged_in, only: [:new, :create]
-  before_action :redirect_unless_logged_in, only: [:show]
+  before_action :redirect_unless_logged_in,
+              only: [:show, :destroy, :remote_logout]
 
   def new
     @user = User.new
@@ -28,6 +29,13 @@ class SessionsController < ApplicationController
 
   def destroy
     logout
+    redirect_to :back
+  end
+
+  def remote_logout
+    target = Session.find(params[:id])
+    redirect_to :back unless target.user_id = current_user.id
+    target.destroy
     redirect_to :back
   end
 end
