@@ -1,1 +1,12 @@
 <h1><%= @band.name %></h1>
+
+<h3>Albums</h3>
+<%= render 'shared/item_list', list: @band.albums %>
+<br><br>
+
+<br><br><br><br>
+
+<%= link_to "Show all Bands", bands_url%>
+<%= button_to "New", new_band_url %>
+<%= button_to "Edit", edit_band_url(@band) %>
+<%= button_to "Delete", band_url(@band), method: :delete %>

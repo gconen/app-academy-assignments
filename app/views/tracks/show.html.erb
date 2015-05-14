@@ -1,0 +1,11 @@
+<h1><%= (@track.title.nil? ? "Untitled Track" : @track.title) %> from
+        <%= render @track.album %></h1>
+
+<%= @track.lyrics %>
+
+
+<br><br><br><br>
+
+<%= button_to "New", new_track_url %>
+<%= button_to "Edit", edit_track_url(@track) %>
+<%= button_to "Delete", track_url(@track), method: :delete %>

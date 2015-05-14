@@ -1,2 +1,10 @@
 <h1><%= @album.title %></h1>
-<h3>By <%= @album.band.name %> </h3>
+<h3>By <%= render @album.band %> </h3>
+
+<%= render 'shared/item_list', list: @album.tracks %>
+
+<br><br><br><br>
+
+<%= button_to "New", new_album_url %>
+<%= button_to "Edit", edit_album_url(@album) %>
+<%= button_to "Delete", album_url(@album), method: :delete %>

@@ -1,0 +1,16 @@
+<%= begin_form(action_url, method) %>
+
+
+  <%= csrf_input %>
+
+  <label> Band Name:
+    <input
+      type="text"
+      name="band[name]"
+      id='band-name'
+      value="<%= @band.name %>"
+    >
+  </label>
+
+
+<%= end_form(button) %>

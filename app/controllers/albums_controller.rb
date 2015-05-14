@@ -1,6 +1,12 @@
 class AlbumsController < ApplicationController
+  before_action :redirect_unless_logged_in
+
   def show
-    @album = Album.find(:id).includes(:band)
+    @album = Album.find(params[:id])
+  end
+
+  def index
+    @albums = Album.all
   end
 
   def new
@@ -17,8 +23,23 @@ class AlbumsController < ApplicationController
     end
   end
 
-  def show
+  def edit
     @album = Album.find(params[:id])
+  end
+
+  def update
+    @album = Album.find(params[:id])
+    if @album.update(album_params)
+      redirect_to album_url(@album)
+    else
+      flash.now[:errors] = @album.errors.full_messages
+      render :edit
+    end
+  end
+
+  def destroy
+    Band.find(params[:id]).destroy
+    redirect_to :back
   end
 
   private

@@ -1,10 +1,16 @@
 class BandsController < ApplicationController
+  before_action :redirect_unless_logged_in
+
   def show
-    @band = Band.find(:id)
+    @band = Band.find(params[:id])
   end
 
   def new
     @band = Band.new
+  end
+
+  def index
+    @bands = Band.all
   end
 
   def create
@@ -31,8 +37,9 @@ class BandsController < ApplicationController
     end
   end
 
-  def show
-    @band = Band.find(params[:id])
+  def destroy
+    Band.find(params[:id]).destroy
+    redirect_to :back
   end
 
   private

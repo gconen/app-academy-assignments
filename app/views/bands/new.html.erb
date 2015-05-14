@@ -1,18 +1,8 @@
 <h1>Create a new band</h1>
 
-<%= begin_form(bands_url, "POST") %>
-
-
-  <%= csrf_input %>
-
-  <label> Band Name:
-    <input
-      type="text"
-      name="band[name]"
-      id='band-name'
-      value="<%= @band.name %>"
-    >
-  </label>
-
-
-<%= end_form("Create Band") %>
+<%= render partial: 'form', locals: {
+  action_url: bands_url,
+  band: @band,
+  method: "POST",
+  button: "Create Band"
+} %>

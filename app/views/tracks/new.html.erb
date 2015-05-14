@@ -1,42 +1,8 @@
 <h1>Create New Track</h1>
 
-<form action="<%= tracks_url %>" method="POST">
-  <%= csrf_input %>
-
-  <label>Title:
-    <input
-      type="text"
-      name="track[title]"
-      label="track-title"
-      value="<%= @track.title %>"
-    >
-  </label>
-
-  <br><br>
-
-  <%= render partial: "shared/select_list", locals: {
-    label: "Album",
-    name: "track[album_id]",
-    list: Album.all,
-    item_label: :title,
-    default: @track.album_id
-  } %>
-
-  <br><br><br>
-
-  <%= render partial: "shared/radio_buttons", locals: {
-    name: "track[bonus]",
-    options: {"false" => "Regular Track", "true" => "Bonus Track"},
-    default: @track.bonus.to_s
-  } %>
-
-  <br><br>
-
-  <label>Lyrics: <br>
-    <textarea name="track[lyrics]" id="track-lyrics"><%= @track.lyrics%></textarea>
-  </label>
-
-  <br><br>
-
-  <input type="submit" value="Create New Track">
-</form>
+<%= render partial: 'form', locals: {
+  action_url: tracks_url,
+  track: @track,
+  method: "POST",
+  button: "Create Track"
+} %>

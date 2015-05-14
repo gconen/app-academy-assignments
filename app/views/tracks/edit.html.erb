@@ -1,0 +1,8 @@
+<h1>Edit Track</h1>
+
+<%= render partial: 'form', locals: {
+  action_url: track_url(@track),
+  track: @track,
+  method: "PATCH",
+  button: "Update Track"
+} %>
