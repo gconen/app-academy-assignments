@@ -1,10 +1,7 @@
 class NotesController < ApplicationController
   def create
-    @note = Note.new
-    @note.user_id = current_user.id
-    @note.track_id = params[:track_id]
-    @note.content = params[:content]
-    @note.save
+    current_user.notes << Note.create(track_id: params[:track_id],
+                                      content: params[:content])
     redirect_to :back
   end
 end
