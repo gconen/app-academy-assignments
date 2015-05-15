@@ -2,6 +2,7 @@
 <h3>By <%= render @album.band %> </h3>
 
 <%= render 'shared/item_list', list: @album.tracks %>
+<%= link_to "Add an track from this album", new_album_track_url(@album) %>
 
 <br><br><br><br>
 
