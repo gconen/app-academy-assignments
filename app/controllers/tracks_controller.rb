@@ -38,7 +38,7 @@ class TracksController < ApplicationController
   end
 
   def destroy
-    Band.find(params[:id]).destroy
+    Track.find(params[:id]).destroy
     redirect_to :back
   end
 

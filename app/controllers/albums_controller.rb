@@ -38,7 +38,7 @@ class AlbumsController < ApplicationController
   end
 
   def destroy
-    Band.find(params[:id]).destroy
+    Album.find(params[:id]).destroy
     redirect_to :back
   end
 
