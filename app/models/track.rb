@@ -13,4 +13,6 @@ class Track < ActiveRecord::Base
     through: :album,
     source: :band
   )
+
+  has_many :notes, dependent: :destroy
 end

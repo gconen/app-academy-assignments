@@ -8,6 +8,6 @@
 <br><br><br><br>
 
 <%= link_to "Show all Bands", bands_url%>
-<%= button_to "New", new_band_url %>
-<%= button_to "Edit", edit_band_url(@band) %>
+<%= button_to "New", new_band_url, method: :get %>
+<%= button_to "Edit", edit_band_url(@band), method: :get %>
 <%= button_to "Delete", band_url(@band), method: :delete %>

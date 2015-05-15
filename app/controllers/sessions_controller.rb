@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
       render :new
     else
       log_in(user)
-      redirect_to user_url(user)
+      redirect_to bands_url
     end
   end
 

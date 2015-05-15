@@ -3,6 +3,12 @@ module ApplicationHelper
     name.gsub(/[\[\]_]/, '-')
   end
 
+  def ugly_lyrics(lyrics)
+    lines = lyrics.split("\n")
+    lines.map! { |line| "♫ " + line}
+    lines.join("\n")
+  end
+
   def csrf_input
     html = <<-HTML
       <input type="hidden"

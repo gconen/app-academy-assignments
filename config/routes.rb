@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   resources :albums do
     resources :tracks, only: [:new]
   end
-  resources :tracks
+  resources :tracks  do
+    resources :notes, only: [:create]
+  end
 
 
   # The priority is based upon order of creation: first created -> highest priority.

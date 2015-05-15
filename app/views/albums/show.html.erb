@@ -6,6 +6,6 @@
 
 <br><br><br><br>
 
-<%= button_to "New", new_album_url %>
-<%= button_to "Edit", edit_album_url(@album) %>
+<%= button_to "New", new_band_album_url(@album.band), method: :get %>
+<%= button_to "Edit", edit_album_url(@album), method: :get %>
 <%= button_to "Delete", album_url(@album), method: :delete %>
