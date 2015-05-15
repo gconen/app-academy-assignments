@@ -10,7 +10,9 @@ class User < ActiveRecord::Base
 
   def self.find_by_credentials(credentials)
     user = User.find_by(email: credentials["email"])
-    return user if user && user.is_password?(credentials["password"])
+    if user && user.is_password?(credentials["password"]) && user.activated
+      return user
+    end
 
     nil
   end

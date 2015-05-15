@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resource :session, only: [:new, :create, :destroy]
-  resources :users, only: [:new, :create, :show]
+  resources :users, only: [:new, :create, :show] do
+    get 'activate', on: :member
+  end
   resources :bands do
     resources :albums, only: [:new]
   end
