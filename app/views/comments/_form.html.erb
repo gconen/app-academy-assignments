@@ -1,0 +1,13 @@
+<form action="<%= post_comments_url(comment.post_id) %>" method="POST">
+  <%= csrf %>
+
+  <label><h4>New Comment:</h4>
+    <textarea name="comment[content]" id="comment"></textarea>
+  </label>
+  <input type="hidden"
+         name="parent_comment_id"
+         value="<%= comment.parent_comment_id %>"
+  >
+  <br>
+  <input type="submit" value="Create Comment">
+</form>

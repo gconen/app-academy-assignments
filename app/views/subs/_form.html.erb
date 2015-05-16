@@ -1,0 +1,26 @@
+<% url = (sub.persisted? ? sub_url(sub) : subs_url) %>
+<% button = (sub.persisted? ? "Update" : "Create") %>
+<% method = (sub.persisted? ? "PATCH" : "POST") %>
+
+<form action="<%= url %>" method="post">
+  <input type="hidden" name="_method" value="<%= method %>">
+
+  <%= csrf %>
+
+  <label>Title:
+    <input type="text"
+           name="sub[title]"
+           id="sub-title"
+           value="<%= sub.title %>">
+  </label>
+  <br>
+
+  <label>Description:
+    <input type="text"
+           name="sub[description]"
+           id="sub-description"
+           value="<%= sub.description %>">
+  </label>
+
+  <input type="Submit" value="<%= button %>">
+</form>
