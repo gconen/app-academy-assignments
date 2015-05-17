@@ -8,14 +8,14 @@ class UsersController < ApplicationController
       redirect_to user_url
     else
       # input didn't pass validation; re-render sign up form.
-      #render :new
+      render :new
     end
   end
 
   def new
     # present form for signup
     @user = User.new # dummy user object
-    #render :new
+    render :new
   end
 
   def show
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
     end
 
     @user = current_user
-    #render :show
+    render :show
   end
 
   protected
