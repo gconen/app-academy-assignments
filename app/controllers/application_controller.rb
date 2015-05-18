@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  helper_method :current_user
 
   def user_params
     params.require(:user).permit(:username, :password)
@@ -17,5 +18,11 @@ class ApplicationController < ActionController::Base
     user = current_user
     session[:session_token] = nil
     user.reset_session_token
+  end
+
+  def redirect_if_not_logged_in
+    unless current_user
+      redirect_to new_session_url
+    end
   end
 end

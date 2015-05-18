@@ -23,6 +23,13 @@ feature "the signup process" do
 
       expect(page).to have_content "Bobby"
     end
+
+    it "shows errors for invalid signup" do
+      visit "users/new"
+      click_button "Sign Up"
+      expect(page).to have_content "Username can't be blank"
+      expect(page).to have_content "Password is too short"
+    end
   end
 end
 
@@ -33,11 +40,20 @@ feature "logging in" do
 
     expect(page).to have_content "Bobby"
   end
+
+  it "shows errors for invalid sign in" do
+    user = create :user
+    visit new_session_url
+    click_button "Sign In"
+    expect(page).to have_content "invalid password user combination"
+  end
 end
 
 feature "logging out" do
   it "begins with logged out state" do
+    visit "users"
 
+    expect(current_path).to eql('/session/new')
   end
 
   it "doesn't show username on homepage after logout" do
@@ -48,6 +64,5 @@ feature "logging out" do
 
     expect(page).to_not have_content "Bobby"
   end
-
 
 end
