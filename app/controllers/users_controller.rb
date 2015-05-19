@@ -18,8 +18,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @pending_goals = @user.goals.where(completed: false)
-    @completed_goals = @user.goals.where(completed: true)
+    @pending_goals = @user.goals.where(completed: false).includes(:comments)
+    @completed_goals = @user.goals.where(completed: true).includes(:comments)
   end
 
   def edit

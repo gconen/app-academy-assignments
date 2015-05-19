@@ -6,8 +6,8 @@
 #  name       :string           not null
 #  body       :string           not null
 #  user_id    :integer          not null
-#  private    :boolean          not null
-#  completed  :boolean          not null
+#  privacy    :boolean          default(FALSE), not null
+#  completed  :boolean          default(FALSE), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
