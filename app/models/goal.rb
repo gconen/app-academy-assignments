@@ -13,11 +13,11 @@
 #
 
 class Goal < ActiveRecord::Base
+  include Commentable
   validates :name, :body, :user_id, presence: true
   validates :name, uniqueness: { scope: :user_id }
   after_initialize :ensure_defaults
   belongs_to :user, inverse_of: :goals
-  has_many :comments, as: :commentable
 
   def ensure_defaults
     self.completed = false unless self.completed
