@@ -8,8 +8,8 @@ require 'webrick'
 server = WEBrick::HTTPServer.new(:Port => 3001)
 
 server.mount_proc('/') do |request, response|
-  response.content_type = "text/html"
-  response.body = "<h1>" + request.path + "</h1>"
+  response.content_type = "text/plain"
+  response.body = request.request_method.inspect
 end
 
 trap("INT") do
