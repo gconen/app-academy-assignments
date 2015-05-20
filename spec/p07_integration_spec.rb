@@ -49,11 +49,10 @@ describe "the symphony of things" do
       expect(ctrlr.session).to be_instance_of(RailsLite::Session)
     end
 
-    it "saves the session after rendering content" do
+    it "saves the session and flash after rendering content" do
       ctrlr.update_session
-      # Currently broken when flash is used. Need to store flash in the cookie
-      # or change this spec.
-      expect(res.cookies.count).to eq(1)
+      # Store 2 cookies, session and flash
+      expect(res.cookies.count).to eq(2)
       expect(JSON.parse(res.cookies[0].value)["token"]).to eq("testing")
     end
   end

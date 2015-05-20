@@ -1,4 +1,7 @@
 require "active_support/inflector"
+require "params"
+require "session"
+require "flash"
 
 module RailsLite
   class ControllerBase
@@ -23,7 +26,7 @@ module RailsLite
     # Set the response status code and header
     def redirect_to(url)
       check_unbuilt
-      session.store_session(@res)
+      set_cookies
       @res.status = 302
       @res["Location"] = url
       @already_built_response = true
@@ -34,7 +37,7 @@ module RailsLite
     # Raise an error if the developer tries to double render.
     def render_content(content, content_type)
       check_unbuilt
-      session.store_session(@res)
+      set_cookies
       @res.body = content
       @res.content_type = content_type
       @already_built_response = true
@@ -52,15 +55,23 @@ module RailsLite
       @session ||= Session.new(@req)
     end
 
-    class ControllerError < StandardError
-
+    def flash
+      @flash  ||= Flash.new(@req)
     end
 
-    private
     def check_unbuilt
       if already_built_response?
         raise ControllerError.new("Response already built")
       end
     end
+
+    def set_cookies
+      session.store_session(@res)
+      flash.store_flash(@res)
+    end
+  end
+
+  class ControllerError < StandardError
+
   end
 end
