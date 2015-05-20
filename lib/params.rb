@@ -1,6 +1,6 @@
 require 'uri'
 
-module Phase5
+module RailsLite
   class Params
     # use your initialize to merge params from
     # 1. query string
@@ -12,8 +12,8 @@ module Phase5
     def initialize(req, route_params = {})
       query_params = parse_www_encoded_form(req.query_string)
       body_params = parse_www_encoded_form(req.body)
-      @params = query_params.deep_merge(body_params)
-      @params = @params.deep_merge(route_params)
+      @params = hash_deep_merge(query_params, body_params)
+      @params = hash_deep_merge(@params, route_params)
     end
 
     def [](key)
@@ -28,6 +28,22 @@ module Phase5
     class AttributeNotFoundError < ArgumentError; end;
 
     private
+
+    def hash_deep_merge(first, second)
+      unless first.is_a?(Hash) && second.is_a?(Hash)
+        raise ArgumentError.new("Can only deep merge two hashes")
+      end
+      first.merge(second) do |key, first_val, second_val|
+        if first_val.is_a?(Hash) && second_val.is_a?(Hash)
+          hash_deep_merge(first_val, second_val)
+        elsif first_val.is_a?(Array) && second_val.is_a?(Array)
+          first_val + second_val
+        else
+          second_val
+        end
+      end
+    end
+
     # this should return deeply nested hash
     # argument format
     # user[address][street]=main&user[address][zip]=89436
@@ -36,14 +52,14 @@ module Phase5
     def parse_www_encoded_form(www_encoded_form)
       www_encoded_form ||= ""
       key_values = URI.decode_www_form(www_encoded_form)
-      hash = {}
+      parsed_form = {}
       key_values.each do |(key, value)|
         nested_keys = parse_key(key)
         nested_hash = create_nested_hash(nested_keys, value)
-        hash = hash.deep_merge(nested_hash)
+        parsed_form = hash_deep_merge(parsed_form, nested_hash)
       end
 
-      hash
+      parsed_form
     end
 
     # this should return an array
@@ -57,23 +73,6 @@ module Phase5
       top_key = keys_arr.shift
 
       { top_key => create_nested_hash(keys_arr, value) }
-    end
-  end
-
-  class Hash
-    def deep_merge(other)
-      unless other.is_a?(Hash)
-        raise ArgumentError.new("Can only deep_merge hashes with other hashes")
-      end
-      self.merge(other) do |key, self_val, other_val|
-        if self_val.is_a?(Hash) && other_val.is_a?(Hash)
-          self_val.deep_merge(other_val)
-        elsif self_val.is_a?(Array) && other_val.is_a?(Array)
-          self_val + other_val
-        else
-          other_val
-        end
-      end
     end
   end
 end
