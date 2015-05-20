@@ -1,3 +1,5 @@
+require 'uri'
+
 module RailsLite
   class Route
     attr_reader :pattern, :http_method, :controller_class, :action_name
@@ -51,6 +53,17 @@ module RailsLite
       @routes << Route.new(pattern, method, controller_class, action_name)
     end
 
+    #todo remove the instance_variable_set by implementing our own version of
+    #WEBrick::HTTPRequest that allows @request_method to be changed
+    def check_method_param(req)
+      params = URI.decode_www_form(req.body)
+      method_params = params.find { |param| param.first = "_method" }
+      if method_params
+        req.instance_variable_set(:@request_method, method_params[1])
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!
+      end
+    end
+
     # evaluate the proc in the context of the instance
     # for syntactic sugar :)
     def draw(&proc)
@@ -72,6 +85,9 @@ module RailsLite
 
     # either throw 404 or call run on a matched route
     def run(req, res)
+      if req.body
+        check_method_param(req)
+      end
       route = match(req)
       if route.nil?
         res.status = 404
