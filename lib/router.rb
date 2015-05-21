@@ -31,7 +31,7 @@ module RailsLite
       pattern = pattern.gsub(/:\w+\//) do |match|
         "(?<#{match.drop(1)}>\w+)/"
       end
-      pattern = "^/" + pattern + "$"
+      pattern = "^/" + pattern + "/?$"
       Regexp.new(pattern)
     end
 
