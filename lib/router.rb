@@ -27,7 +27,12 @@ module RailsLite
 
     def parse_pattern(pattern)
       return pattern if pattern.is_a?(Regexp)
-      Regexp.new(pattern.to_s)
+      pattern = pattern.to_s
+      pattern = pattern.gsub(/:\w+\//) do |match|
+        "(?<#{match.drop(1)}>\w+)/"
+      end
+      pattern = "^/" + pattern + "$"
+      Regexp.new(pattern)
     end
 
     def route_params(req)
@@ -42,6 +47,8 @@ module RailsLite
   end
 
   class Router
+    HTTP_METHODS=[:get, :post, :patch, :put, :delete]
+
     attr_reader :routes
 
     def initialize
@@ -72,7 +79,7 @@ module RailsLite
 
     # make each of these methods that
     # when called add route
-    [:get, :post, :put, :delete].each do |http_method|
+    HTTP_METHODS.each do |http_method|
       define_method(http_method) do |pattern, controller_class, action_name|
         add_route(pattern, http_method, controller_class, action_name)
       end
@@ -81,6 +88,18 @@ module RailsLite
     # should return the route that matches this request
     def match(req)
       @routes.find { |route| route.matches?(req) }
+    end
+
+    def resources(controller_class)
+      path = controller_class.name
+      add_route(path, "GET", controller_class, :index)
+      add_route(path, "POST", controller_class, :create)
+      add_route("#{path}/new", "GET", controller_class, :new)
+      add_route("#{path}/:id", "GET", controller_class, :show)
+      add_route("#{path}/:id", "PATCH", controller_class, :update)
+      add_route("#{path}/:id", "PUT", controller_class, :update)
+      add_route("#{path}/:id/edit", "GET", controller_class, :edit)
+      add_route("#{path}/:id", "DELETE", controller_class, :destroy)
     end
 
     # either throw 404 or call run on a matched route
