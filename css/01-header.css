@@ -1,1 +1,63 @@
 /* PHASE 1: Header */
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+.header {
+  background-color: #f00;
+  font-weight: 400;
+  color: #fff;
+  style: clear;
+}
+
+.header-nav {
+  border-color: #fff;
+}
+
+.header-logo {
+  float: left;
+  margin-left: 67px;
+  margin-right: auto;
+  font-weight: 700;
+  border-right-style: solid;
+  border-left-style: solid;
+  padding-left: 21px;
+  padding-right: 21px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  cursor: pointer;
+}
+
+.header-list {
+  float: right;
+  margin-left: auto;
+  margin-right: auto;
+  border-color: #0c0;
+  padding-right: 67px;
+}
+
+.header-list a {
+  float: left;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 21px;
+  padding-right: 21px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-right-style: solid;
+  cursor: pointer;
+}
+
+.header-list a:first-child {
+  border-left-style: solid;
+}
+
+.header-logo:hover {
+  background: #000;
+}
+
+.header-list a:hover {
+  background-color: #000;
+}
