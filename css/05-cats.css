@@ -1,1 +1,24 @@
 /* PHASE 5: Cats */
+.content-header {
+  position: relative;
+  height: 200px;
+  background-size: cover;
+  background-image: url("file:///Users/appacademy/Desktop/css-friends/skeleton/shared/img/cats.jpg");
+}
+
+.content-header h1 {
+  left: 240px;
+  bottom: 20px;
+  position: absolute;
+  font-size: 36px;
+  color: #fff;
+  text-shadow: 0px 0px 10px #000;
+}
+
+.content-header button {
+  right: 20px;
+  bottom: 20px;
+  position: absolute;
+  color: #000;
+  background-color: #fff;
+}
