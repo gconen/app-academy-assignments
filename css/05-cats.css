@@ -8,7 +8,7 @@
 
 .content-header h1 {
   left: 240px;
-  bottom: 20px;
+  bottom: 17px;
   position: absolute;
   font-size: 36px;
   color: #fff;
@@ -21,4 +21,16 @@
   position: absolute;
   color: #000;
   background-color: #fff;
+  border-color: #000;
+  border-style: solid;
+  border-radius: 5px;
+  font-weight: 700;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.content-header button:hover {
+  background-color: #eee;
 }

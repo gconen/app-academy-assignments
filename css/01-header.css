@@ -11,12 +11,14 @@ body {
   style: clear;
   position: relative;
   z-index: 1;
+  border-bottom-style: solid;
+  border-color: #ccc;
 }
 
 .header-nav {
   margin-left: auto;
   margin-right: auto;
-  width: 900px;
+  width: 902px;
 }
 
 .header-logo {
@@ -24,11 +26,12 @@ body {
   font-weight: 700;
   border-right-style: solid;
   border-left-style: solid;
-  padding-left: 21px;
-  padding-right: 21px;
+  padding-left: 20px;
+  padding-right: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
   cursor: pointer;
+  border-color: #ccc;
 }
 
 .header-list {
@@ -40,8 +43,8 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 21px;
-  padding-right: 21px;
+  padding-left: 20px;
+  padding-right: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
   cursor: pointer;
@@ -54,6 +57,7 @@ body {
 .header-list > li {
   float: left;
   border-right-style: solid;
+  border-color: #ccc;
 }
 
 .header-logo:hover {
