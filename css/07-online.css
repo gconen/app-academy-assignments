@@ -1,1 +1,15 @@
 /* PHASE 7: Online */
+.profile-picture p {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  /*background-color: #0c0;*/
+  color: #fff;
+  font-weight: 700;
+  transform: rotate(-45deg);
+  border-bottom: 20px solid #0c0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  width: 20px;
+  height: 0px;
+}

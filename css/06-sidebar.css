@@ -1,9 +1,13 @@
 /* PHASE 6: Sidebar */
 
+.profile-picture {
+  position: relative;
+}
+
 .profile-picture img {
   width: 198px;
   height: 198px;
-  position: relative;
+  /*position: relative;*/
   margin-top: -99px;
   margin-left: auto;
   margin-right: auto;
