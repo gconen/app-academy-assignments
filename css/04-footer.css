@@ -17,8 +17,8 @@
 .footer-notice {
   float: left;
   margin-left: 20px;
-  padding-top: 21px;
-  padding-bottom: 21px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .footer-nav {
@@ -28,8 +28,8 @@
 .footer-nav-list li {
   float: left;
   margin-right: 20px;
-  padding-top: 21px;
-  padding-bottom: 21px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .footer-nav-list a:hover {
