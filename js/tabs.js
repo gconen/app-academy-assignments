@@ -1,26 +1,52 @@
 $.Tabs = function (el) {
-  this.$el = $(el);
-  this.$contentTabs = $(this.$el.data("content-tabs"));
-  this.$activeTab = this.$el.find(".active");
-  this.$activeContentTab = this.$contentTabs.find(this.$activeTab.attr('href'));
-  this.$el.on("click", "a", this.clickTab.bind(this));
+  this.$tabsContent = $(el);
+  this.$tabsNav = $(this.$tabsContent.data("tabs-nav"));
+  this.$activeTab = this.$tabsContent.find(".active");
+  this.populateTabs();
+  this.$tabsNav.on("click", "li.nav-tab-header", this.clickTab.bind(this));
 };
 
+
 $.fn.tabs = function () {
-  return this.each(function () {
+  var $tabs = this.find(".tabs-container");
+  $tabs.each(function () {
     new $.Tabs(this);
+  });
+
+  return this;
+};
+
+$.Tabs.prototype.populateTabs = function () {
+  var that = this;
+  this.$tabsContent.find(".tab").each(function (i, el) {
+    var tabId = that.$tabsNav.attr('id') + '-' + i;
+    var tabHeader = $(el).find('.tab-header').text();
+    $(el).attr('id', tabId);
+    var header = $('<li>')
+                  .text(tabHeader)
+                  .attr('data-tab-id', tabId)
+                  .addClass('nav-tab-header');
+    if ($(el).hasClass("active")) {
+        header.addClass("active");
+    }
+    that.$tabsNav.append(header);
   });
 };
 
 
 $.Tabs.prototype.clickTab = function (event) {
-  event.preventDefault();
-
-  this.$activeTab.removeClass('active');
-  this.$activeContentTab.removeClass('active');
-
-  this.$activeTab = $(event.currentTarget);
-  this.$activeTab.addClass('active');
-  this.$activeContentTab = this.$contentTabs.find(this.$activeTab.attr('href'));
-  this.$activeContentTab.addClass("active");
+  if (this.$tabsContent.find(".transitioning").length !== 0) {
+    return;
+  }
+  var oldActive = this.$tabsContent.find(".active");
+  oldActive.removeClass("active").addClass("transitioning");
+  this.$tabsNav.find(".active").removeClass("active");
+  $(event.currentTarget).addClass("active");
+  var id = $(event.currentTarget).data("tab-id");
+  var newActive = this.$tabsContent.find("#" + id);
+  newActive.addClass("transitioning-in");
+  window.setTimeout(function (event) {
+    oldActive.removeClass("transitioning");
+    newActive.removeClass("transitioning-in").addClass("active");
+  }, 500);
 };
