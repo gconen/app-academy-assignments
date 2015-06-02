@@ -13,6 +13,23 @@ Pokedex.RootView.prototype.reassignToy = function (event) {
   });
 };
 
+Pokedex.RootView.prototype.updateToy = function (event) {
+  event.preventDefault();
+
+  var $target = $(event.currentTarget);
+  var pokemon = this.pokes.get($target.data("pokemon-id"));
+  var toy = pokemon.toys().get($target.data("toy-id"));
+  var formData = $target.serializeJSON();
+  var that = this;
+  toy.save(formData, {
+    success: function () {
+      that.renderToysList(pokemon);
+      that.renderToyDetail(toy);
+    },
+    failure: function() { alert("fail!"); }
+  });
+};
+
 Pokedex.RootView.prototype.renderToysList = function (pokemon) {
   var that = this;
   this.$el.find("ul.toys").empty();

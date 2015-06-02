@@ -15,7 +15,7 @@ class ToysController < ApplicationController
   end
 
   def toy_params
-    params.require(:toy).permit(:pokemon_id)
+    params.require(:toy).permit(:name, :price, :happiness, :pokemon_id)
   end
 
 end

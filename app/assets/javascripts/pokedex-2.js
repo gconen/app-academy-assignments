@@ -13,14 +13,35 @@ Pokedex.RootView.prototype.addToyToList = function (toy) {
 Pokedex.RootView.prototype.renderToyDetail = function (toy) {
   var $detail = $("<div>").addClass('detail');
   $detail.append($("<img>").attr('src', toy.escape("image_url")));
-  $detail.append($("<p>").append("Toy Name: " + toy.escape("name")));
-  $detail.append($("<p>").append("Happiness Granted: " + toy.escape("happiness")));
-  $detail.append($("<p>").append("Price: $" + toy.escape("price")));
+  var $form = $("<form>").addClass("edit-toy-form");
+  $form.attr('data-toy-id', toy.get('id'));
+  $form.attr('data-pokemon-id', toy.get('pokemon_id'));
+
+  var $nameLabel = $("<label>").append("Toy Name:");
+  var $nameInput = $("<input>").attr("type", "text").
+                              attr("name", "toy[name]").
+                              attr("value", toy.escape("name"));
+  $nameLabel.append($nameInput);
+  $form.append($nameLabel);
+
+  var $happinessLabel = $("<label>").append("Happiness Granted:");
+  var $happinessInput = $("<input>").attr("type", "text").
+                              attr("name", "toy[happiness]").
+                              attr("value", toy.escape("happiness"));
+  $happinessLabel.append($happinessInput);
+  $form.append($happinessLabel);
+
+  var $priceLabel = $("<label>").append("Price:");
+  var $priceInput = $("<input>").attr("type", "text").
+                              attr("name", "toy[price]").
+                              attr("value", toy.escape("price"));
+  $priceLabel.append($priceInput);
+  $form.append($priceLabel);
+
   var pokemon = this.pokes.get(toy.get("pokemon_id"));
 
   var $label = $('<label>').text("Owning Pokemon: ");
-  var $select = $('<select>').addClass('change-owner-select');
-  $select.attr('data-toy-id', toy.get('id')).attr('data-pokemon-id', pokemon.get("id"));
+  var $select = $('<select>').attr("name", "toy[pokemon_id]");
   $label.append($select);
 
   // TA: use .each
@@ -34,8 +55,11 @@ Pokedex.RootView.prototype.renderToyDetail = function (toy) {
     $select.append($option);
   });
 
-  $detail.append($label);
-  // $detail.append($("<p>").append("Owning Pokemon: " + pokemon.escape("name")));
+  $form.append($label);
+
+  $form.append($("<input>").attr("type", "submit").attr("value", "Edit Toy"));
+
+  $detail.append($form);
   this.$toyDetail.html($detail);
 };
 

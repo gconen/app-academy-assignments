@@ -414,7 +414,8 @@ ActiveRecord::Base.transaction do
       "defense"=>25,
       "poke_type"=>"ground",
       "moves"=>[
-         "scratch"
+         "scratch",
+         "dig"
       ],
     },
     "51"=>{
@@ -424,7 +425,7 @@ ActiveRecord::Base.transaction do
       "poke_type"=>"ground",
       "moves"=>[
          "scratch",
-         "slash",
+         "dig",
          "earthquake"
       ],
     },
@@ -435,7 +436,8 @@ ActiveRecord::Base.transaction do
       "poke_type"=>"normal",
       "moves"=>[
          "scratch",
-         "bite"
+         "bite",
+         "payday"
       ],
     },
     "53"=>{
@@ -446,7 +448,7 @@ ActiveRecord::Base.transaction do
       "moves"=>[
          "scratch",
          "bite",
-         "slash"
+         "payday"
       ],
     },
     "54"=>{
@@ -1066,7 +1068,7 @@ ActiveRecord::Base.transaction do
       ],
     },
     "122"=>{
-      "name"=>"Mr. mime",
+      "name"=>"Mr. Mime",
       "attack"=>45,
       "defense"=>65,
       "poke_type"=>"psychic",
@@ -1148,7 +1150,7 @@ ActiveRecord::Base.transaction do
       "defense"=>55,
       "poke_type"=>"water",
       "moves"=>[
-         "tackle"
+         "splash"
       ],
     },
     "130"=>{
