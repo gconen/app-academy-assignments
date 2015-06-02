@@ -14,12 +14,13 @@ Pokedex.RootView.prototype.reassignToy = function (event) {
 };
 
 Pokedex.RootView.prototype.renderToysList = function (pokemon) {
+  var that = this;
   this.$el.find("ul.toys").empty();
   pokemon.fetch({
     success: function () {
-      for (var i = 0; i < pokemon.toys().length; i++) {
-        this.addToyToList(pokemon.toys().at(i));
-      }
-    }.bind(this)
+      pokemon.toys().each(function (toy) {
+        that.addToyToList(toy);
+      });
+    }
   });
 };

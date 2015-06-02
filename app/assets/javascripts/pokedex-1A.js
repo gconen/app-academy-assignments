@@ -8,9 +8,9 @@ Pokedex.RootView.prototype.refreshPokemon = function () {
   var that = this;
   that.pokes.fetch({
     success: function (pokemon){
-      for (var i = 0; i < pokemon.length; i++) {
-        that.addPokemonToList(pokemon.at(i));
-      }
+      pokemon.each (function (curPoke) {
+        that.addPokemonToList(curPoke);
+      });
     }
   });
 };
