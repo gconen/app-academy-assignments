@@ -12,13 +12,14 @@ Pokedex.Views.PokemonIndex = Backbone.View.extend({
 
   addPokemonToList: function (pokemon) {
     var template = JST["pokemonListItem"];
-    var list = template({ pokemon: pokemon });
+    var listItem = template({ pokemon: pokemon });
 
-    this.$el.append(list);
+    this.$el.append(listItem);
   },
 
   refreshPokemon: function (options) {
     this.collection.fetch({
+      reset: true,
       success: function() {
         if (options) {
           options.success && options.success();
@@ -63,19 +64,19 @@ Pokedex.Views.PokemonDetail = Backbone.View.extend({
   },
 
   render: function () {
-    var template = JST["pokemonDetail"];
+    var pokemonTemplate = JST["pokemonDetail"];
 
-    this.$el.html(template({ pokemon: this.model }));
+    this.$el.html(pokemonTemplate({ pokemon: this.model }));
 
+    var toyTemplate = JST["toyListItem"];
     this.model.toys().each(function (toy) {
-      var template = JST["toyListItem"];
-      this.$el.find(".toys").append(template({ toy: toy }));
+      this.$el.find(".toys").append(toyTemplate({ toy: toy }));
     }.bind(this));
   },
 
   selectToyFromList: function (event) {
-    var li = $(event.currentTarget);
-    var toy = this.model.toys().get(li.data("id"));
+    var $li = $(event.currentTarget);
+    var toy = this.model.toys().get($li.data("id"));
     Backbone.history.navigate(
       "pokemon/" + toy.get("pokemon_id") + "/toys/" + toy.get("id"),
       { trigger: true }
@@ -88,14 +89,14 @@ Pokedex.Views.ToyDetail = Backbone.View.extend({
     "change select": "reassignToy"
   },
 
-  reassignToy: function(event) {
-    var option = $(event.currentTarget);
-    var oldPokemon = this.collection.get(option.data("pokemon-id"));
+  reassignToy: function (event) {
+    var $select = $(event.currentTarget);
+    var oldPokemon = this.collection.get($select.data("pokemon-id"));
     var toy = this.model;
 
-    toy.set("pokemon_id", option.val());
+    toy.set("pokemon_id", $select.val());
     toy.save({}, {
-      success: function() {
+      success: function () {
         oldPokemon.toys().remove(toy);
         Backbone.history.navigate("pokemon/" + oldPokemon.id, { trigger: true});
       }

@@ -14,6 +14,7 @@ Pokedex.Views.PokemonForm = Backbone.View.extend({
     event.preventDefault();
     var formData = $(event.currentTarget).serializeJSON();
     console.log(formData["pokemon"]);
+    debugger;
     this.model.save(formData["pokemon"], {
       success: function () {
         this.collection.add(this.model);
