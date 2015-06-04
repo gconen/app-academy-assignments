@@ -4,6 +4,7 @@ JournalApp.Views.PostShow = Backbone.View.extend({
 
   initialize: function () {
     this.listenTo(this.model, "sync", this.render);
+    this.listenTo(this.model, "remove", Backbone.history.navigate.bind(Backbone.history, ""));
   },
 
   events: {
@@ -24,6 +25,7 @@ JournalApp.Views.PostShow = Backbone.View.extend({
     var val = $target.val();
     var $parent = $target.parent();
     $parent.text(val);
+
     var name = $parent.attr("name");
     var postParams = {};
     postParams[name] = val;
