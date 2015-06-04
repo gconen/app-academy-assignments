@@ -18,7 +18,7 @@ class Api::FeedsController < ApplicationController
 
   def destroy
     feed = Feed.find(params[:id])
-    feed.destroy();
+    feed.destroy
     render :json => feed
   end
 

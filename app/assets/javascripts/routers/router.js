@@ -2,29 +2,27 @@ NewsReader.Routers.Router = Backbone.Router.extend({
   routes: {
     "": "root",
     "feeds/:id": "feedShow",
+    "feeds/:feedId/*url": "entryShow"
   },
 
   initialize: function (options) {
     this.$rootEl = options.$rootEl;
+    NewsReader.feeds.fetch();
+    this.rootView = new NewsReader.Views.Root();
+    this.$rootEl.append(this.rootView.render().$el);
   },
 
   root: function () {
-    NewsReader.feeds.fetch();
-    this._swapView(new NewsReader.Views.FeedsIndex( {
-      collection: NewsReader.feeds
-    }));
+    // TA: delegate to root view
+    this._currentView && this._currentView.remove();
+    this._currentView = null;
   },
 
   feedShow: function (id) {
-    this._swapView(new NewsReader.Views.FeedShow (
-      { model: NewsReader.feeds.getOrFetch(id) }
-    ));
+    this.rootView.setFeed(id);
   },
 
-  _swapView: function (view) {
-    this._currentView && this._currentView.remove();
-    this._currentView = view;
-    this.$rootEl.html(view.render().$el);
-    return view;
+  entryShow: function (feedId, entryUrl) {
+    this.rootView.showEntry(feedId, entryUrl);
   },
 });

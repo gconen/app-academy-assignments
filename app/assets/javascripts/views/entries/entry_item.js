@@ -4,6 +4,7 @@ NewsReader.Views.EntryItem = Backbone.View.extend({
   tagName: "li",
 
   initialize: function () {
+    // TA: unnecessary?
     this.listenTo(this.model, "sync", this.render);
   },
 

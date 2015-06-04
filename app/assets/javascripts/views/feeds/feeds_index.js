@@ -3,9 +3,11 @@ NewsReader.Views.FeedsIndex = Backbone.CompositeView.extend({
   className: "feeds",
 
   initialize: function () {
+    // TA: reset is cool
     this.listenTo(this.collection, "sync", this.render);
     this.listenTo(this.collection, "add", this.addFeed);
     this.collection.each( this.addFeed.bind(this) );
+    this.addSubview("div.feeds-form", new NewsReader.Views.FeedsForm());
   },
 
   addFeed: function (feed) {
