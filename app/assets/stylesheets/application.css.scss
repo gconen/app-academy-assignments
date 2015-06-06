@@ -16,3 +16,60 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
+
+.boards-index-item, .list {
+  float: left;
+  margin: 10px;
+}
+
+.boards-index-item a {
+  display: block;
+  height: 100px;
+  width: 200px;
+  border: 5px;
+  border-radius: 5px;
+  background-color: blue;
+  color: white;
+}
+
+.boards-index-item a:hover {
+  background-color: grey;
+}
+
+.list {
+  border: 5px;
+  border-radius: 5px;
+  background-color: blue;
+  color: white;
+  padding: 10px;
+}
+
+.list:hover {
+  cursor: grab;
+}
+
+#new-board-container {
+  height: 100px;
+  width: 200px;
+  border: 5px;
+  border-radius: 5px;
+  background-color: grey;
+  float:left;
+  margin: 10px;
+}
+
+ul {
+  list-style: none;
+  float: left;
+  padding: 0px;
+}
+
+.clear-fix {
+  background-color: orange;
+}
+
+.clear-fix:after {
+  content: "";
+  clear: both;
+  display: table;
+}
