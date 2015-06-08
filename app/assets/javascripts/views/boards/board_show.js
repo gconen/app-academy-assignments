@@ -9,7 +9,8 @@ TrelloClone.Views.BoardShow = Backbone.CompositeView.extend({
   },
 
   events: {
-    "sortstop": "sort"
+    "sortstop": "sort",
+    "sortreceive": "transfer"
   },
 
   addLists: function() {
@@ -44,5 +45,18 @@ TrelloClone.Views.BoardShow = Backbone.CompositeView.extend({
     var list = this.model.lists().get($list.data("list-id"));
     TrelloClone.Sortable.setOrd($list, list);
   },
+
+  transfer: function (event, ui) {
+    var senderId = ui.sender.parent().data("list-id");
+    var receiverId = $(event.target).parent().data("list-id");
+    var itemId = ui.item.data("card-id");
+    var sender = this.model.lists().get(senderId);
+    var receiver = this.model.lists().get(receiverId);
+    var item = sender.cards().get(itemId);
+    item.set({ list_id: receiverId });
+    item.save();
+    // sender.cards().remove(item);
+    // sender.cards().add(item)
+  }
 
 });
