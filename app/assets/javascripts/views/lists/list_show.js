@@ -45,15 +45,10 @@ TrelloClone.Views.ListShow = Backbone.CompositeView.extend({
   sort: function (event, ui) {
     var $card = ui.item;
     var card = this.model.cards().get($card.data("card-id"));
-    var $prev = $card.prev();
-    var $next = $card.next();
-    var prevOrd = ( $prev.length > 0 ? $prev.data("ord") : 0 );
-    var nextOrd = ( $next.length > 0 ? $next.data("ord") : prevOrd + 2 );
-    var ord = prevOrd + ((nextOrd - prevOrd) / 2.0);
-    card.set({ord: ord});
-    card.save();
-    $card.attr("data-ord", ord);
+    this.setOrd($card, card);
   },
 
 
 });
+
+$.extend(TrelloClone.Views.ListShow.prototype, TrelloClone.Sortable.prototype);
