@@ -9,21 +9,21 @@ TrelloClone.Views.ListShow = Backbone.CompositeView.extend({
 
   initialize: function (options) {
     this.listenTo(this.model, "sync", this.render);
-    this.listenTo(this.model.cards(), "add", this.addCard);
     this.listenTo(this.model.cards(), "reset", this.addCards);
+    this.listenTo(this.model.cards(), "remove", this.removeCard);
   },
 
   events: {
     "sortstop": "sort"
   },
 
-  addCards: function() {
+  addCards: function () {
     this.model.cards().sort();
     this.removeSubviews(".cards-list");
     this.model.cards().each(this.addCard, this);
   },
 
-  addCard: function(card) {
+  addCard: function (card) {
     var cardView = new TrelloClone.Views.CardShow({ model: card });
     this.addSubview(
       ".cards-list",
@@ -45,12 +45,19 @@ TrelloClone.Views.ListShow = Backbone.CompositeView.extend({
     return this;
   },
 
+  removeCard: function (card) {
+    this.removeModelSubview(card);
+  },
+
 
   sort: function (event, ui) {
     event.stopPropagation();
     var $card = ui.item;
     var card = this.model.cards().get($card.data("card-id"));
-    TrelloClone.Sortable.setOrd($card, card);
+    //if this is a transfer, the card is now gone, so don't try to modify it.
+    if (card) {
+      TrelloClone.Sortable.setOrd($card, card);
+    }
   },
 
 });

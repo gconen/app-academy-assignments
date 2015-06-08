@@ -47,6 +47,7 @@ TrelloClone.Views.BoardShow = Backbone.CompositeView.extend({
   },
 
   transfer: function (event, ui) {
+    event.preventDefault();
     var senderId = ui.sender.parent().data("list-id");
     var receiverId = $(event.target).parent().data("list-id");
     var itemId = ui.item.data("card-id");
@@ -55,8 +56,9 @@ TrelloClone.Views.BoardShow = Backbone.CompositeView.extend({
     var item = sender.cards().get(itemId);
     item.set({ list_id: receiverId });
     item.save();
-    // sender.cards().remove(item);
-    // sender.cards().add(item)
+    receiver.cards().add(item);
+    sender.cards().remove(item);
+    TrelloClone.Sortable.setOrd(ui.item, item);
   }
 
 });
