@@ -61,5 +61,3 @@ TrelloClone.Views.ListShow = Backbone.CompositeView.extend({
   },
 
 });
-
-$.extend(TrelloClone.Views.ListShow.prototype, TrelloClone.Sortable.prototype);
