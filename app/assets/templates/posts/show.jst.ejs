@@ -1,0 +1,7 @@
+<h3 class="fancyable" name="title"><%= post.escape("title") %></h3>
+<pre class="fancyable" name="body"><%= post.escape("body") %></pre>
+<br>
+<button class="post-delete-button">Delete</button>
+<br>
+<a href="#posts/<%= post.escape("id") %>/edit">Edit Post</a>
+<small><a href="#">Back to Index</a></small>
