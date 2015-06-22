@@ -1,0 +1,8 @@
+<h1>Edit Album</h1>
+
+<%= render partial: "form", locals: {
+  action_url: album_url(@album),
+  album: @album,
+  method: "PATCH",
+  button: "Update Album"
+} %>

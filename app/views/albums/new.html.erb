@@ -1,0 +1,8 @@
+<h1>Create New Album</h1>
+
+<%= render partial: "form", locals: {
+  action_url: albums_url,
+  album: @album,
+  method: "POST",
+  button: "Create Album"
+} %>

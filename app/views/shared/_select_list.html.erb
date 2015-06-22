@@ -1,0 +1,13 @@
+<label> <%= label %>
+  <select name="<%= name %>" id="<%= format_id_tag(name) %>">
+    <option></option>
+    <% list.each do |item| %>
+      <option
+        value="<%= item.id %>"
+        <%= "selected" if default == item.id %>
+      >
+        <%= item.send(item_label) %>
+      </option>
+    <% end %>
+  </select>
+</label>

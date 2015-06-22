@@ -1,0 +1,34 @@
+<%= begin_form(action_url, method) %>
+  <%= csrf_input %>
+
+  <label> Title:
+    <input
+      type="text"
+      name="album[title]"
+      id="album-title"
+      value="<%= album.title %>"
+    >
+  </label>
+
+  <br><br>
+
+
+  <%= render partial: "shared/select_list", locals: {
+    label: "Recording Band",
+    name: "album[band_id]",
+    list: Band.all,
+    item_label: :name,
+    default: album.band_id
+  } %>
+
+  <br><br>
+
+  <%= render partial: "shared/radio_buttons", locals: {
+    options: {"true" => "Live", "false" => "Studio"},
+    name: "album[live]",
+    default: album.live.to_s
+  } %>
+
+  <br><br>
+
+<%= end_form(button) %>

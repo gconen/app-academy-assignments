@@ -1,0 +1,8 @@
+<h1>Create a new band</h1>
+
+<%= render partial: 'form', locals: {
+  action_url: bands_url,
+  band: @band,
+  method: "POST",
+  button: "Create Band"
+} %>

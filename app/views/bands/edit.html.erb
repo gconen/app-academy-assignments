@@ -1,0 +1,8 @@
+<h1>Update band info</h1>
+
+<%= render partial: 'form', locals: {
+  action_url: band_url(@band),
+  band: @band,
+  method: "PATCH",
+  button: "Update"
+} %>

@@ -1,0 +1,8 @@
+<h1>Create New Track</h1>
+
+<%= render partial: 'form', locals: {
+  action_url: tracks_url,
+  track: @track,
+  method: "POST",
+  button: "Create Track"
+} %>
