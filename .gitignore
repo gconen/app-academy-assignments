@@ -12,6 +12,10 @@
 /db/*.sqlite3-journal
 
 # Ignore all logfiles and tempfiles.
+<<<<<<< HEAD
 /log/*
 !/log/.keep
+=======
+/log/*.log
+>>>>>>> bootstrap-assignment/master
 /tmp
