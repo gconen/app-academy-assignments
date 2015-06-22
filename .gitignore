@@ -13,9 +13,14 @@
 
 # Ignore all logfiles and tempfiles.
 <<<<<<< HEAD
+<<<<<<< HEAD
 /log/*
 !/log/.keep
 =======
 /log/*.log
 >>>>>>> bootstrap-assignment/master
+=======
+/log/*
+!/log/.keep
+>>>>>>> redditclone/master
 /tmp

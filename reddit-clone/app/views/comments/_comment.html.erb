@@ -1,0 +1,13 @@
+<li>
+  <h5><%= comment.author.username %> said:</h5>
+  <%= comment.content %>
+  <form action="<%= new_post_comment_url(comment.post_id) %>" method="GET">
+    <%= csrf %>
+    <input type="hidden" name="parent_comment_id" value="<%= comment.id %>">
+
+    <input type="submit" value="Reply">
+  </form>
+  <ul>
+    <%= render @all_comments.where(parent_comment_id: comment.id) %>
+  </ul>
+</li>

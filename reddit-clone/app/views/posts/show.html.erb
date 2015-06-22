@@ -1,0 +1,22 @@
+<h1><%= @post.title %></h1>
+<% if @post.url %>
+  <%= link_to @post.url, @post.url %>
+<% end %>
+<br>
+<%= @author.username %>
+<br>
+<pre><%= @post.content %></pre>
+
+<% if current_user && current_user.id == @post.author_id %>
+  <%= link_to "Edit this post", edit_post_url(@post) %>
+<% end %>
+<br>
+
+<%= render "comments/form", comment: @new_comment %>
+
+<ul>
+  <%= render @all_comments.where(parent_comment_id: nil) %>
+</ul>
+
+<h2>Posted To:</h2>
+<%= render @post.subs %>
