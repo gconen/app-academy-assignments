@@ -1,0 +1,9 @@
+<h1>Create New Cat Rental Request</h1>
+
+<%= render partial: "form", locals:
+  { action_url: cat_rental_requests_url,
+    hidden_method: "post",
+    cat_rental_request: @cat_rental_request,
+    submit_value: "Submit Request"
+  }
+%>

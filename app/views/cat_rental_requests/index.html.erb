@@ -1,0 +1,22 @@
+<h1>Cat Rental Requests</h1>
+
+<% unless @cat_rental_requests.empty? %>
+  <ul>
+    <% @cat_rental_requests.each do |request| %>
+      <li><%="start date: #{request.start_date} "%><br><%="
+        end date: #{request.end_date}  "%><br><%="
+        status: #{request.status}" %><br>
+        <% if request.pending? %>
+          <%= button_to 'Approve Request',
+            approve_cat_rental_request_url(request), method: :patch %><br>
+          <%= button_to 'Deny Request',
+            deny_cat_rental_request_url(request), method: :patch %><br>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= link_to "Rent a Cat!!",
+  new_cat_rental_request_url %>
+<br><br>

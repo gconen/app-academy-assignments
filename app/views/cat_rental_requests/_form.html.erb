@@ -1,0 +1,33 @@
+<form action="<%= action_url %>" method='post'>
+  <input type='hidden'
+    name='authenticity_token'
+    value='<%= form_authenticity_token %>'>
+
+  <input type='hidden' name="_method" value="<%= hidden_method %>">
+
+  <label for="cat-rental-request-cat-id">Cat Requested</label>
+  <select name="cat_rental_request[cat_id]" id="cat-rental-request-cat-id">
+    <option></option>
+    <% Cat.cat_names.each do |cat_id, cat_name| %>
+      <option value="<%= cat_id %>"
+        <%= "selected" if cat_id == cat_rental_request.cat_id %>>
+        <%= cat_name %>
+      </option>
+    <% end %>
+  </select>
+  <br><br>
+
+  <label for="cat-rental-request-start-date">Start Date</label>
+  <input type="date" name="cat_rental_request[start_date]"
+    id="cat-rental-request-start-date"
+    value="<%= cat_rental_request.start_date.to_s %>">
+  <br><br>
+  <label for="cat-rental-request-end-date">End Date</label>
+  <input type="date" name="cat_rental_request[end_date]"
+    id="cat-rental-request-end-date"
+    value="<%= cat_rental_request.end_date.to_s %>">
+  <br><br>
+
+
+  <input type="submit" value="<%= submit_value %>">
+</form>

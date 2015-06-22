@@ -1,0 +1,5 @@
+<h1>New Cat</h1>
+
+<%= render partial: 'form', :locals =>
+  { action_url: cats_url, hidden_method: 'post',
+    submit_value: 'Create Cat', cat: @cat } %>
