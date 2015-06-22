@@ -1,0 +1,49 @@
+puts "Input your email:"
+email = gets.chomp
+user = User.find_by(email: email)
+if user.nil?
+  puts "Email not found. Create a new account (y/n)?"
+  case gets.chomp
+  when 'y'
+    user = User.create!(email: email)
+  else
+    exit
+  end
+end
+begin
+  puts 'What do you want to do?'
+  puts '0. Create shortened url'
+  puts '1. Visit shortened url'
+  puts '2. Visit the most popular page for a tag'
+  case Integer(gets.chomp)
+  when 0
+    puts "Enter the full url"
+    url = gets.chomp
+    print "Your shortened url is: "
+    page = ShortenedUrl.create_for_user_and_long_url!(user, url)
+    puts page.short_url
+    puts "Would you like to tag your post? (y/n)"
+    if gets.chomp == 'y'
+      TagTopic.all.each do |topic|
+        puts "Is it a #{topic.topic} page?"
+        topic.urls << page if gets.chomp == 'y'
+      end
+    end
+  when 1
+    puts "Type (or copy-paste) the shortened url:"
+    url = gets.chomp
+    full_url = ShortenedUrl.find_by(short_url: url).long_url
+    Launchy.open(full_url)
+  when 2
+    TagTopic.all.each do |topic|
+      puts "Visit the most popular #{topic.topic} page?"
+      Launchy.open(topic.most_popular.first.long_url) if gets.chomp == 'y'
+    end
+  else
+    raise "Invalid Input"
+  end
+
+rescue=>e
+  puts e.message
+  retry
+end
