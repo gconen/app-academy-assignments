@@ -1,0 +1,35 @@
+.container{
+  background-color: black;
+  width: 300px;
+  height: 300px;
+  margin: auto;
+  margin-top: 40px;
+  border: 20px solid black;
+}
+
+.cell{
+  background-color: grey;
+  width: 90px;
+  height: 90px;
+  float: left;
+  box-sizing: border-box;
+  margin: 5px;
+}
+
+.cell.marked-x {
+  background-color: white;
+  color: purple;
+  display: block;
+  font-size: 80px;
+}
+
+.cell.marked-o {
+  background-color: white;
+  color: red;
+  display: block;
+  font-size: 80px;
+}
+
+.cell:hover{
+  background-color: white;
+}
