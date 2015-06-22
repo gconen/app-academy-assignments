@@ -1,0 +1,15 @@
+<li>
+<% unless goal.privacy && goal.user_id != current_user.id %>
+  <h4><%= goal.name %></h4>
+  <%= goal.body %>
+  <% if goal.user_id == current_user.id %>
+    <% unless goal.completed %>
+      <%= button_to "Complete Goal", complete_goal_url(goal), method: :patch %>
+    <% end %>
+    <%= link_to "Edit Goal", edit_goal_url(goal) %>
+    <%= button_to "Cancel Goal", goal_url(goal), method: :delete %>
+  <% end %>
+  <%= link_to "Comment on Goal", new_goal_comment_url(goal), id: "comment-goal" %>
+  <%= render goal.comments %>
+<% end %>
+</li>
